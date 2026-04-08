@@ -13,6 +13,8 @@ export function App() {
         <div className="font-mono text-xs text-muted-foreground">
           (Press <kbd>d</kbd> to toggle dark mode)
         </div>
+
+        TEST
       </div>
     </div>
   )
