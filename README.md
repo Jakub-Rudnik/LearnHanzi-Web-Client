@@ -1,21 +1,29 @@
-# React + TypeScript + Vite + shadcn/ui
+# LearnHanzi Web Client
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
+Official web client for [LearnHanzi](https://github.com/Jakub-Rudnik/LearnHanzi-Server), a tool for learning Chinese characters.
 
-## Adding components
 
-To add components to your app, run the following command:
-
+## Run development version
+### Docker / Podman - recommended way
 ```bash
-npx shadcn@latest add button
+docker compose build
+docker compose up -d
+
+#if you're using podman
+podman compose build
+podman compose up -d
 ```
 
-This will place the ui components in the `src/components` directory.
+You can also run it locally but that requires having node and pnpm installed
+```bash
+pnpm install
+pnpm run dev
+```
 
-## Using components
+## Run production version
+TBA
 
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button"
+## To install any package and save it to the dependencies, use:
+```bash
+docker compose exec learn-hanzi-client pnpm add <package-name>
 ```
