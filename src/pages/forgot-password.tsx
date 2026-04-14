@@ -1,12 +1,16 @@
 import { ForgotPasswordForm } from "@/components/forgot-password-form.tsx";
-import { Helmet } from "react-helmet-async";
+import PageMeta from "@/components/seo/page-meta.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function ForgotPasswordPage() {
+  const { t } = useTranslation();
+
   return (
     <>
-      <Helmet>
-        <title>Learn Hanzi - Forgot Password</title>
-      </Helmet>
+      <PageMeta
+        title={t("metaForgotPasswordTitle")}
+        description={t("metaForgotPasswordDescription")}
+      />
       <ForgotPasswordForm />
     </>
   );

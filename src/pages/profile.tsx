@@ -1,13 +1,16 @@
-import PageMeta from "@/components/seo/page-meta.tsx"
+import PageMeta from "@/components/seo/page-meta.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Profile - LearnHanzi"
-        description="Manage your LearnHanzi profile, settings, and personal learning preferences."
+        title={t("metaProfileTitle")}
+        description={t("metaProfileDescription")}
       />
-      <h1>Profile</h1>
+      <h1>{t("Profile")}</h1>
     </>
-  )
+  );
 }

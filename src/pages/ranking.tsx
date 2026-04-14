@@ -1,13 +1,16 @@
-import PageMeta from "@/components/seo/page-meta.tsx"
+import PageMeta from "@/components/seo/page-meta.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function RankingPage() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Ranking - LearnHanzi"
-        description="Track your progress and compare your LearnHanzi score with other learners."
+        title={t("metaRankingTitle")}
+        description={t("metaRankingDescription")}
       />
-      <h1>Ranking</h1>
+      <h1>{t("Ranking")}</h1>
     </>
-  )
+  );
 }
