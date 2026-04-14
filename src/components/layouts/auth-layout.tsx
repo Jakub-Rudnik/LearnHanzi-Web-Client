@@ -1,8 +1,11 @@
 import { Outlet } from "react-router";
 import Image from "@/assets/profile-picture.jpeg";
 import Logo from "@/components/logo.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function AuthLayout() {
+  const { t } = useTranslation();
+
   return (
     <div className="h-full w-full">
       <div className="grid min-h-svh lg:grid-cols-2">
@@ -19,7 +22,7 @@ export default function AuthLayout() {
         <div className="relative hidden bg-muted lg:block">
           <img
             src={Image}
-            alt="Image"
+            alt={t("Profile Picture")}
             className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
           />
         </div>

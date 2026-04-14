@@ -1,13 +1,16 @@
-import PageMeta from "@/components/seo/page-meta.tsx"
+import PageMeta from "@/components/seo/page-meta.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function DictionaryPage() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Dictionary - LearnHanzi"
-        description="Search and explore Chinese character meanings, readings, and examples."
+        title={t("metaDictionaryTitle")}
+        description={t("metaDictionaryDescription")}
       />
-      <h1>Dictionary</h1>
+      <h1>{t("Dictionary")}</h1>
     </>
-  )
+  );
 }

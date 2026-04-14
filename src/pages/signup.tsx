@@ -1,12 +1,15 @@
 import PageMeta from "@/components/seo/page-meta.tsx";
 import { SignupForm } from "@/components/signup-form.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function SignupPage() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Sign up - LearnHanzi"
-        description="Create your LearnHanzi account and start learning Chinese characters."
+        title={t("metaSignupTitle")}
+        description={t("metaSignupDescription")}
       />
       <SignupForm />
     </>
