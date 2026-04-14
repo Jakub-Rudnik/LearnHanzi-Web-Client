@@ -26,23 +26,30 @@ import { cn } from "@/lib/utils.ts";
 import { useState } from "react";
 import Logo from "@/components/logo.tsx";
 import { ButtonGroup, ButtonGroupSeparator, } from "@/components/ui/button-group.tsx";
+import { useTranslation } from "react-i18next";
+import en from "@/locales/en/en.json";
 
 type NavigationItem = {
-  name: string;
+  name: keyof typeof en;
   href: string;
 };
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
+  const languages = [
+    { code: "en", label: t("English") },
+    { code: "pl", label: t("Polish") },
+  ];
 
-  const navigation_items = [
+  const navigation_items: NavigationItem[] = [
     {
       name: "Home",
       href: "/home",
     },
     {
-      name: "Flash cards",
+      name: "Flashcards",
       href: "/flash-cards",
     },
     {
@@ -81,20 +88,38 @@ export default function Header() {
           </HoverCard>
 
           <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">{i18n.language}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                {languages.map((lng) => (
+                  <DropdownMenuItem
+                    key={lng.code}
+                    onSelect={() => i18n.changeLanguage(lng.code)}
+                  >
+                    {lng.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
                 <AvatarImage src={profilePicture} />
-                <AvatarFallback>Profile Picture</AvatarFallback>
+                <AvatarFallback>{t("Profile Picture")}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>{t("My Account")}</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
-                  <NavLink to="/profile">Profile</NavLink>
+                  <NavLink to="/profile">{t("Profile")}</NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild variant="destructive">
-                  <NavLink to="/logout">Logout</NavLink>
+                  <NavLink to="/logout">{t("Logout")}</NavLink>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
@@ -114,18 +139,18 @@ export default function Header() {
         </DrawerTrigger>
         <DrawerContent className="flex flex-col gap-6">
           <DrawerHeader>
-            <DrawerTitle>Menu</DrawerTitle>
+            <DrawerTitle>{t("Menu")}</DrawerTitle>
           </DrawerHeader>
           <Menu setOpen={setOpen} items={navigation_items} column={true} />
           <div className="flex flex-col gap-6 p-4">
             <div className="flex items-center justify-start gap-6">
               <Avatar>
                 <AvatarImage src={profilePicture} />
-                <AvatarFallback>Profile Picture</AvatarFallback>
+                <AvatarFallback>{t("Profile Picture")}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start justify-center">
-                <p className="font-bold">User</p>
-                <p className="text-sm font-light">example@example.com</p>
+                <p className="font-bold">{t("User")}</p>
+                <p className="text-sm font-light">{t("example@example.com")}</p>
               </div>
             </div>
             <ButtonGroup className="w-full">
@@ -134,7 +159,7 @@ export default function Header() {
                   onClick={setOpen ? () => setOpen(false) : undefined}
                   to="/profile"
                 >
-                  Profile
+                  {t("Profile")}
                 </NavLink>
               </Button>
               <ButtonGroupSeparator />
@@ -144,7 +169,7 @@ export default function Header() {
                   to="/logout"
                   end
                 >
-                  Logout
+                  {t("Logout")}
                 </NavLink>
               </Button>
             </ButtonGroup>
@@ -165,6 +190,7 @@ function Menu({
   setOpen?: (open: boolean) => void;
 }) {
   const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     <NavigationMenu
@@ -202,7 +228,7 @@ function Menu({
                   to={item.href}
                   end
                 >
-                  {item.name}
+                  {t(item.name)}
                 </NavLink>
               </NavigationMenuLink>
             </NavigationMenuItem>
