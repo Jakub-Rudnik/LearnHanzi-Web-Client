@@ -54,5 +54,19 @@
   "Enter email, name and password to create account": "Enter email, name and password to create account",
   "Name": "Name",
   "Example name": "e.g. MagicznyKrzysztof",
-  "Signup": "Signup"
+  "Signup": "Signup",
+  "homePage": {
+    "WelcomeHeading": "Welcome back",
+    "WelcomeHeadingDescription": "Continue practicing to improve your skills and climb the rankings!"
+  },
+  "userResultsTable": {
+    "character": "Character",
+    "word": "Word",
+    "pronunciation": "Pronunciation",
+    "meaning": "Meaning",
+    "lastPractised": "Last practiced",
+    "level": "Level",
+    "status": "Status",
+    "favorite": "Favorite"
+  }
 }
