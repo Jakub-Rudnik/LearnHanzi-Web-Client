@@ -54,5 +54,15 @@
   "Enter email, name and password to create account": "Wpisz e-mail, imię i hasło, aby utworzyć konto",
   "Name": "Imię",
   "Example name": "np. MagicznyKrzysztof",
-  "Signup": "Zarejestruj się"
+  "Signup": "Zarejestruj się",
+  "userResultsTable": {
+    "character": "Znak",
+    "word": "Litera",
+    "pronunciation": "Wymowa",
+    "meaning": "Znaczenie",
+    "lastPractised": "Ostatnio ćwiczone",
+    "level": "Poziom",
+    "status": "Status",
+    "favorite": "Ulubione"
+  }
 }
