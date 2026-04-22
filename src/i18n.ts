@@ -8,13 +8,13 @@ i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    supportedLngs: ["en", "pl"],
-    fallbackLng: "en",
+    supportedLngs: ["en-GB", "pl-PL"],
+    fallbackLng: "en-GB",
     resources: {
-      en: {
+      "en-GB": {
         translation: en,
       },
-      pl: {
+      "pl-PL": {
         translation: pl,
       },
     },

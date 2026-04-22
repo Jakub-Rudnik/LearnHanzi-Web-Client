@@ -8,7 +8,7 @@ import { NavLink, useLocation } from "react-router";
 import { Button } from "@/components/ui/button.tsx";
 import { useTheme } from "@/components/theme-provider.tsx";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Menu01Icon, Moon02Icon, Sun02Icon } from "@hugeicons/core-free-icons";
+import { LanguageSkillIcon, Menu01Icon, Moon02Icon, Sun02Icon, } from "@hugeicons/core-free-icons";
 import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar.tsx";
 import profilePicture from "@/assets/profile-picture.jpeg";
 import { HoverCard, HoverCardContent, HoverCardTrigger, } from "@/components/ui/hover-card.tsx";
@@ -39,8 +39,8 @@ export default function Header() {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const languages = [
-    { code: "en", label: t("English") },
-    { code: "pl", label: t("Polish") },
+    { code: "en-GB", label: t("English") },
+    { code: "pl-PL", label: t("Polish") },
   ];
 
   const navigation_items: NavigationItem[] = [
@@ -71,14 +71,17 @@ export default function Header() {
 
         <div className="flex items-center justify-center gap-4">
           <HoverCard>
-            <HoverCardTrigger>
+            <HoverCardTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon-lg"
                 onClick={() => setTheme(theme == "dark" ? "light" : "dark")}
               >
                 <HugeiconsIcon
-                  icon={theme == "dark" ? Moon02Icon : Sun02Icon}
+                  icon={Sun02Icon}
+                  altIcon={Moon02Icon}
+                  showAlt={theme == "dark"}
+                  className="size-5"
                 />
               </Button>
             </HoverCardTrigger>
@@ -89,7 +92,9 @@ export default function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost">{i18n.language}</Button>
+              <Button variant="ghost" size="icon-lg">
+                <HugeiconsIcon icon={LanguageSkillIcon} className="size-5" />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
@@ -97,6 +102,7 @@ export default function Header() {
                   <DropdownMenuItem
                     key={lng.code}
                     onSelect={() => i18n.changeLanguage(lng.code)}
+                    className={i18n.language == lng.code ? "font-bold" : ""}
                   >
                     {lng.label}
                   </DropdownMenuItem>
