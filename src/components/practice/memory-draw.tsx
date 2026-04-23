@@ -1,11 +1,16 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card.tsx";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { useTranslation } from "react-i18next";
 
-const RECOGNITION_API_BASE_URL =
-  import.meta.env.VITE_RECOGNITION_API_URL ?? "http://localhost:8001";
+const RECOGNITION_API_BASE_URL = import.meta.env.VITE_PUBLIC_RECOGNITION_URL;
 
 type PredictionItem = {
   character: string;
@@ -124,7 +129,9 @@ export default function MemoryDrawCard({ char }: { char: string }) {
           {recognition.character == char ? (
             <Badge>{tr("practice.memoryDraw.correct")}</Badge>
           ) : (
-            <Badge variant="destructive">{tr("practice.memoryDraw.incorrect")}</Badge>
+            <Badge variant="destructive">
+              {tr("practice.memoryDraw.incorrect")}
+            </Badge>
           )}
           <p>
             {tr("practice.memoryDraw.predicted")}:{" "}
@@ -133,7 +140,8 @@ export default function MemoryDrawCard({ char }: { char: string }) {
             </span>
           </p>
           <p>
-            {tr("practice.memoryDraw.confidence")}: {(recognition.confidence * 100).toFixed(1)}%
+            {tr("practice.memoryDraw.confidence")}:{" "}
+            {(recognition.confidence * 100).toFixed(1)}%
           </p>
           {recognition.top_predictions &&
           recognition.top_predictions.length > 0 ? (
