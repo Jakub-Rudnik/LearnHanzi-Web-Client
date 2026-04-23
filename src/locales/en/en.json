@@ -83,6 +83,46 @@
     "WelcomeHeading": "Welcome back",
     "WelcomeHeadingDescription": "Continue practicing to improve your skills and climb the rankings!"
   },
+  "practicePage": {
+    "accuracy": "{{accuracy}}% correct",
+    "aria": {
+      "practiceOptions": "Practice options",
+      "favorite": "Favorite"
+    }
+  },
+  "practice": {
+    "actions": {
+      "erase": "Erase"
+    },
+    "animation": {
+      "title": "Animation",
+      "aria": {
+        "canvas": "Animation"
+      },
+      "loading": "Loading animation...",
+      "pauseHint": "Click to pause",
+      "playHint": "Click to play"
+    },
+    "strokeOrder": {
+      "title": "Stroke order practice",
+      "loading": "Loading stroke order...",
+      "unavailable": "Stroke order unavailable.",
+      "template": "Template"
+    },
+    "memoryDraw": {
+      "title": "Draw from memory",
+      "canvasNotReady": "Canvas is not ready yet.",
+      "requestFailed": "Recognition request failed",
+      "connectionFailed": "Failed to connect to recognition service",
+      "check": "Check",
+      "checking": "Checking...",
+      "correct": "Correct",
+      "incorrect": "Incorrect",
+      "predicted": "Predicted",
+      "confidence": "Confidence",
+      "top": "Top"
+    }
+  },
   "userResultsTable": {
     "character": "Character",
     "word": "Word",

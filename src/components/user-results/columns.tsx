@@ -104,6 +104,15 @@ export const getColumns = (
   {
     accessorKey: "status",
     header: () => t("userResultsTable.status"),
+    cell: ({ row }) => {
+      const meaning = row.getValue("status") as MeaningText;
+
+      return (
+        <div className="whitespace-normal">
+          {getMeaningText(meaning, i18n.language)}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "favorite",
