@@ -2,6 +2,7 @@ import PageMeta from "@/components/seo/page-meta.tsx";
 import { useTranslation } from "react-i18next";
 import { TypographyH2, TypographyP } from "@/components/typography.tsx";
 import { DataTable } from "@/components/user-results/data-table.tsx";
+import { useUser } from "@/stores/user-store.ts";
 
 type MeaningText = {
   en: string;
@@ -382,6 +383,7 @@ const data = baseData.map((entry) => ({
 
 export default function HomePage() {
   const { t } = useTranslation();
+  const user = useUser((state) => state.user);
 
   return (
     <>
@@ -390,7 +392,9 @@ export default function HomePage() {
         description={t("metaHomeDescription")}
       />
       <div className="flex w-full flex-col items-start justify-center">
-        <TypographyH2>{t("homePage.WelcomeHeading")} user!</TypographyH2>
+        <TypographyH2>
+          {t("homePage.WelcomeHeading")} {user?.username ?? "user"}!
+        </TypographyH2>
         <TypographyP>{t("homePage.WelcomeHeadingDescription")}</TypographyP>
       </div>
       <div className="flex w-full py-8">

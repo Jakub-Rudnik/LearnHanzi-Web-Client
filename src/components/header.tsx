@@ -4,7 +4,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu.tsx";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button.tsx";
 import { useTheme } from "@/components/theme-provider.tsx";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -28,6 +28,7 @@ import Logo from "@/components/logo.tsx";
 import { ButtonGroup, ButtonGroupSeparator, } from "@/components/ui/button-group.tsx";
 import { useTranslation } from "react-i18next";
 import en from "@/locales/en/en.json";
+import { useUser } from "@/stores/user-store.ts";
 
 type NavigationItem = {
   name: keyof typeof en;
@@ -37,11 +38,22 @@ type NavigationItem = {
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const user = useUser((state) => state.user);
+  const logout = useUser((state) => state.logout);
   const languages = [
     { code: "en-GB", label: t("English") },
     { code: "pl-PL", label: t("Polish") },
   ];
+  const displayName = user?.username ?? t("User");
+  const displayEmail = user?.email ?? t("example@example.com");
+  const avatarFallback = displayName.slice(0, 2).toUpperCase();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login", { replace: true });
+  };
 
   const navigation_items: NavigationItem[] = [
     {
@@ -114,8 +126,8 @@ export default function Header() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src={profilePicture} />
-                <AvatarFallback>{t("Profile Picture")}</AvatarFallback>
+                  <AvatarImage src={profilePicture} />
+                  <AvatarFallback>{avatarFallback}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -124,8 +136,8 @@ export default function Header() {
                 <DropdownMenuItem asChild>
                   <NavLink to="/profile">{t("Profile")}</NavLink>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild variant="destructive">
-                  <NavLink to="/logout">{t("Logout")}</NavLink>
+                <DropdownMenuItem variant="destructive" onSelect={() => void handleLogout()}>
+                  {t("Logout")}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
@@ -152,11 +164,11 @@ export default function Header() {
             <div className="flex items-center justify-start gap-6">
               <Avatar>
                 <AvatarImage src={profilePicture} />
-                <AvatarFallback>{t("Profile Picture")}</AvatarFallback>
+                <AvatarFallback>{avatarFallback}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start justify-center">
-                <p className="font-bold">{t("User")}</p>
-                <p className="text-sm font-light">{t("example@example.com")}</p>
+                <p className="font-bold">{displayName}</p>
+                <p className="text-sm font-light">{displayEmail}</p>
               </div>
             </div>
             <ButtonGroup className="w-full">
@@ -169,14 +181,15 @@ export default function Header() {
                 </NavLink>
               </Button>
               <ButtonGroupSeparator />
-              <Button asChild variant="destructive" className="flex-1">
-                <NavLink
-                  onClick={setOpen ? () => setOpen(false) : undefined}
-                  to="/logout"
-                  end
-                >
-                  {t("Logout")}
-                </NavLink>
+              <Button
+                variant="destructive"
+                className="flex-1"
+                onClick={() => {
+                  setOpen(false);
+                  void handleLogout();
+                }}
+              >
+                {t("Logout")}
               </Button>
             </ButtonGroup>
           </div>
@@ -234,7 +247,7 @@ function Menu({
                   to={item.href}
                   end
                 >
-                  {t(item.name)}
+                  {t(item.name as string)}
                 </NavLink>
               </NavigationMenuLink>
             </NavigationMenuItem>
