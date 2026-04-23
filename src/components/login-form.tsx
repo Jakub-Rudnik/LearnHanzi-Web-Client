@@ -1,15 +1,41 @@
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import type { ComponentProps, FormEvent } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import type { ComponentProps } from "react";
+import { useUser } from "@/stores/user-store.ts";
 
 export function LoginForm({ className, ...props }: ComponentProps<"form">) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const login = useUser((state) => state.login);
+  const error = useUser((state) => state.error);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const identifier = String(formData.get("identifier") ?? "").trim();
+    const password = String(formData.get("password") ?? "");
+
+    setIsSubmitting(true);
+
+    try {
+      await login({ identifier, password });
+      navigate("/home", { replace: true });
+    } catch {
+      // The store already captures the auth error message.
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form className={cn("flex flex-col gap-6", className)} onSubmit={handleSubmit} {...props}>
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">{t("Login to your account")}</h1>
@@ -18,9 +44,10 @@ export function LoginForm({ className, ...props }: ComponentProps<"form">) {
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="email">{t("Email")}</FieldLabel>
+          <FieldLabel htmlFor="identifier">{t("Email")}</FieldLabel>
           <Input
-            id="email"
+            id="identifier"
+            name="identifier"
             type="email"
             placeholder={t("m@example.com")}
             required
@@ -30,23 +57,27 @@ export function LoginForm({ className, ...props }: ComponentProps<"form">) {
         <Field>
           <div className="flex items-center">
             <FieldLabel htmlFor="password">{t("Password")}</FieldLabel>
-            <a
-              href="#"
+            <Link
+              to="/forgot-password"
               className="ml-auto text-sm underline-offset-4 hover:underline"
             >
               {t("Forgot your password?")}
-            </a>
+            </Link>
           </div>
           <Input
             id="password"
+            name="password"
             type="password"
             required
             className="bg-background"
           />
         </Field>
         <Field>
-          <Button type="submit">{t("Login")}</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Logging in..." : t("Login")}
+          </Button>
         </Field>
+        {error ? <p className="text-sm text-destructive">{error}</p> : null}
       </FieldGroup>
     </form>
   );
