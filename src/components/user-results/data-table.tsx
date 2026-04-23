@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import { getColumns, type ResultEntry } from "./columns";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+import { useNavigate } from "react-router";
 
 type DataTableProps = {
   data: Array<Record<string, unknown>>;
@@ -18,6 +19,7 @@ type DataTableProps = {
 
 export function DataTable({ data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const columns = React.useMemo(() => getColumns(t, i18n), [t, i18n]);
 
@@ -53,7 +55,11 @@ export function DataTable({ data }: DataTableProps) {
       <TableBody>
         {table.getRowModel().rows.length ? (
           table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow
+              key={row.id}
+              onClick={() => navigate(`/learn/${row.original.character}`)}
+              className="cursor-pointer"
+            >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

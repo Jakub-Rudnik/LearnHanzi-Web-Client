@@ -79,6 +79,46 @@
   "Name": "Imię",
   "Example name": "np. MagicznyKrzysztof",
   "Signup": "Zarejestruj się",
+  "practicePage": {
+    "accuracy": "{{accuracy}}% poprawnych",
+    "aria": {
+      "practiceOptions": "Opcje ćwiczenia",
+      "favorite": "Ulubione"
+    }
+  },
+  "practice": {
+    "actions": {
+      "erase": "Wyczyść"
+    },
+    "animation": {
+      "title": "Animacja",
+      "aria": {
+        "canvas": "Animacja"
+      },
+      "loading": "Ładowanie animacji...",
+      "pauseHint": "Kliknij, aby zatrzymać",
+      "playHint": "Kliknij, aby odtworzyć"
+    },
+    "strokeOrder": {
+      "title": "Ćwiczenie kolejności kresek",
+      "loading": "Ładowanie kolejności kresek...",
+      "unavailable": "Kolejność kresek jest niedostępna.",
+      "template": "Szablon"
+    },
+    "memoryDraw": {
+      "title": "Rysuj z pamięci",
+      "canvasNotReady": "Płótno nie jest jeszcze gotowe.",
+      "requestFailed": "Żądanie rozpoznania nie powiodło się",
+      "connectionFailed": "Nie udało się połączyć z usługą rozpoznawania",
+      "check": "Sprawdź",
+      "checking": "Sprawdzanie...",
+      "correct": "Poprawnie",
+      "incorrect": "Niepoprawnie",
+      "predicted": "Rozpoznano",
+      "confidence": "Pewność",
+      "top": "Najlepsze"
+    }
+  },
   "userResultsTable": {
     "character": "Znak",
     "word": "Litera",
@@ -88,5 +128,9 @@
     "level": "Poziom",
     "status": "Status",
     "favorite": "Ulubione"
+  },
+  "homePage": {
+    "WelcomeHeading": "Witamy ponownie",
+    "WelcomeHeadingDescription": "Kontynuuj ćwiczenia, aby poprawić swoje umiejętności i wspiąć się w rankingu!"
   }
 }

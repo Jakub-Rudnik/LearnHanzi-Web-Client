@@ -12,7 +12,7 @@ import SignupPage from "@/pages/signup.tsx";
 import LandingPage from "@/pages/landing.tsx";
 import ForgotPasswordPage from "@/pages/forgot-password.tsx";
 import ResetPasswordPage from "@/pages/reset-password.tsx";
-import LearnCharPage from "@/pages/learn-char.tsx";
+import LearnCharPage from "@/pages/practise.tsx";
 import { useUser } from "@/stores/user-store.ts";
 
 export function App() {
@@ -29,7 +29,7 @@ export function App() {
             <Route path="/dictionary" element={<DictionaryPage />} />
             <Route path="/ranking" element={<RankingPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/learn-char" element={<LearnCharPage />} />
+            <Route path="/learn/:char" element={<LearnCharPage />} />
           </Route>
         </Route>
 

@@ -16,8 +16,13 @@ type HomeResultEntry = {
   meaning: MeaningText;
   lastPractised: Date;
   level: number;
-  status: string;
+  status: MeaningText;
   favorite: boolean;
+};
+
+const learningStatus: MeaningText = {
+  en: "Learning",
+  pl: "W nauce",
 };
 
 const baseData: HomeResultEntry[] = [
@@ -27,11 +32,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "ēi",
     meaning: {
       en: 'An interjection used to express surprise or get someone\'s attention, similar to "Hey!" or "Oh!"',
-      pl: 'Wykrzyknik używany do wyrażenia zaskoczenia lub zwrócenia czyjejś uwagi, podobny do „Hej!” lub „Och!”.',
+      pl: "Wykrzyknik używany do wyrażenia zaskoczenia lub zwrócenia czyjejś uwagi, podobny do „Hej!” lub „Och!”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -40,11 +45,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "bǐ",
     meaning: {
       en: 'A preposition meaning "compared to" or "than."',
-      pl: 'Przyimek oznaczający „w porównaniu do” lub „niż”.',
+      pl: "Przyimek oznaczający „w porównaniu do” lub „niż”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -53,11 +58,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "xī",
     meaning: {
       en: 'The character for "west."',
-      pl: 'Znak oznaczający „zachód”.',
+      pl: "Znak oznaczający „zachód”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -70,7 +75,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -79,11 +84,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "yī",
     meaning: {
       en: 'A pronoun used to refer to a third person, similar to "he," "she," or "it."',
-      pl: 'Zaimek używany do odnoszenia się do trzeciej osoby, podobny do „on”, „ona” lub „ono”.',
+      pl: "Zaimek używany do odnoszenia się do trzeciej osoby, podobny do „on”, „ona” lub „ono”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -96,7 +101,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -105,11 +110,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "jí",
     meaning: {
       en: 'Often used as an abbreviation for "吉祥" (jíxiáng), which means "auspicious" or "fortunate."',
-      pl: 'Często używany jako skrót od „吉祥” (jíxiáng), co oznacza „pomyślny” lub „szczęśliwy”.',
+      pl: "Często używany jako skrót od „吉祥” (jíxiáng), co oznacza „pomyślny” lub „szczęśliwy”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -122,7 +127,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -135,7 +140,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -144,11 +149,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "jié",
     meaning: {
       en: 'A common given name meaning "outstanding" or "heroic."',
-      pl: 'Popularne imię własne oznaczające „wybitny” lub „heroiczny”.',
+      pl: "Popularne imię własne oznaczające „wybitny” lub „heroiczny”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -157,11 +162,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "kāi",
     meaning: {
       en: 'A verb meaning "to open" or "to start."',
-      pl: 'Czasownik oznaczający „otwierać” lub „zaczynać”.',
+      pl: "Czasownik oznaczający „otwierać” lub „zaczynać”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -174,7 +179,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -187,7 +192,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -196,11 +201,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "ài nà",
     meaning: {
       en: 'A feminine given name that could be a variant of "Anna."',
-      pl: 'Żeńskie imię własne, które może być wariantem imienia „Anna”.',
+      pl: "Żeńskie imię własne, które może być wariantem imienia „Anna”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -209,11 +214,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "ó",
     meaning: {
       en: 'An interjection used to show understanding or acknowledgment, similar to "Oh," "I see," or "Okay."',
-      pl: 'Wykrzyknik używany do pokazania zrozumienia lub potwierdzenia, podobny do „Och”, „Rozumiem” lub „Dobrze”.',
+      pl: "Wykrzyknik używany do pokazania zrozumienia lub potwierdzenia, podobny do „Och”, „Rozumiem” lub „Dobrze”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -222,11 +227,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "pì",
     meaning: {
       en: 'A somewhat informal and slightly rude term meaning "fart."',
-      pl: 'Nieco potoczne i lekko niegrzeczne określenie oznaczające „pierd”.',
+      pl: "Nieco potoczne i lekko niegrzeczne określenie oznaczające „pierd”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -239,7 +244,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -252,7 +257,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -265,7 +270,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -274,11 +279,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "tí",
     meaning: {
       en: 'A verb meaning "to lift" or "to raise."',
-      pl: 'Czasownik oznaczający „podnosić” lub „unosić”.',
+      pl: "Czasownik oznaczający „podnosić” lub „unosić”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -287,11 +292,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "yī wú",
     meaning: {
       en: "A city in China, also spelled Yiwu.",
-      pl: 'Miasto w Chinach, zapisywane także jako Yiwu.',
+      pl: "Miasto w Chinach, zapisywane także jako Yiwu.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -300,11 +305,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "wéi",
     meaning: {
       en: 'Often used in compound words, such as "维持" (wéichí) meaning "to maintain" or "to sustain."',
-      pl: 'Często używany w złożeniach, takich jak „维持” (wéichí), oznaczające „utrzymywać” lub „podtrzymywać”.',
+      pl: "Często używany w złożeniach, takich jak „维持” (wéichí), oznaczające „utrzymywać” lub „podtrzymywać”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -317,7 +322,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -326,11 +331,11 @@ const baseData: HomeResultEntry[] = [
     pronunciation: "yī kè sī",
     meaning: {
       en: 'A transliteration of the English letter "X."',
-      pl: 'Transliteracja angielskiej litery „X”.',
+      pl: "Transliteracja angielskiej litery „X”.",
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -343,7 +348,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
   {
@@ -356,7 +361,7 @@ const baseData: HomeResultEntry[] = [
     },
     lastPractised: new Date("04.04.2026"),
     level: 56,
-    status: "Learning",
+    status: learningStatus,
     favorite: false,
   },
 ];
