@@ -14,6 +14,30 @@
   "Menu": "Menu",
   "User": "Użytkownik",
   "example@example.com": "example@example.com",
+  "profilePage": {
+    "description": "Sprawdź swoje dane konta, status bezpieczeństwa i ostatnią aktywność w jednym miejscu.",
+    "emptyTitle": "Profil jest niedostępny",
+    "emptyDescription": "Nie udało się znaleźć aktywnej sesji dla tego konta.",
+    "emptyHint": "Zaloguj się ponownie, aby zobaczyć dane profilu, status konta i znaczniki czasu aktywności.",
+    "goToLogin": "Przejdź do logowania",
+    "goToDashboard": "Przejdź do panelu",
+    "labels": {
+      "username": "Nazwa użytkownika",
+      "email": "E-mail",
+      "role": "Rola",
+      "status": "Status",
+      "memberSince": "Członek od",
+      "lastLogin": "Ostatnie logowanie",
+      "updatedAt": "Zaktualizowano"
+    },
+    "values": {
+      "user": "Użytkownik",
+      "administrator": "Administrator",
+      "active": "Aktywny",
+      "inactive": "Nieaktywny",
+      "never": "Nigdy"
+    }
+  },
   "metaHomeTitle": "Strona główna - LearnHanzi",
   "metaHomeDescription": "Ćwicz chińskie znaki na swoim spersonalizowanym pulpicie LearnHanzi.",
   "metaProfileTitle": "Profil - LearnHanzi",

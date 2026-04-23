@@ -14,6 +14,30 @@
   "Menu": "Menu",
   "User": "User",
   "example@example.com": "example@example.com",
+  "profilePage": {
+    "description": "Review your account details, security status, and recent activity in one place.",
+    "emptyTitle": "Profile unavailable",
+    "emptyDescription": "We could not find an active session for this account.",
+    "emptyHint": "Please sign in again to view your profile details, account status, and activity timestamps.",
+    "goToLogin": "Go to login",
+    "goToDashboard": "Go to dashboard",
+    "labels": {
+      "username": "Username",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "memberSince": "Member since",
+      "lastLogin": "Last login",
+      "updatedAt": "Updated at"
+    },
+    "values": {
+      "user": "User",
+      "administrator": "Administrator",
+      "active": "Active",
+      "inactive": "Inactive",
+      "never": "Never"
+    }
+  },
   "metaHomeTitle": "Home - LearnHanzi",
   "metaHomeDescription": "Practice Chinese characters with your personalized LearnHanzi home dashboard.",
   "metaProfileTitle": "Profile - LearnHanzi",
