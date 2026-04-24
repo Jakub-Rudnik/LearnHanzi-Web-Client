@@ -46,8 +46,8 @@ export default function LearnCharPage() {
             </p>
           </div>
 
-          <p className="text-center font-medium md:text-left md:text-xl">
-            {i18n.language == "en"
+          <p className="text-center font-medium md:text-left md:text-xl lg:w-2/3">
+            {i18n.language == "en-GB"
               ? hanziCharacter.meaning.en
               : hanziCharacter.meaning.pl}
           </p>
