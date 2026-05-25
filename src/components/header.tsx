@@ -8,10 +8,23 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button.tsx";
 import { useTheme } from "@/components/theme-provider.tsx";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { LanguageSkillIcon, Menu01Icon, Moon02Icon, Sun02Icon, } from "@hugeicons/core-free-icons";
-import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar.tsx";
+import {
+  LanguageSkillIcon,
+  Menu01Icon,
+  Moon02Icon,
+  Sun02Icon,
+} from "@hugeicons/core-free-icons";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar.tsx";
 import profilePicture from "@/assets/profile-picture.jpeg";
-import { HoverCard, HoverCardContent, HoverCardTrigger, } from "@/components/ui/hover-card.tsx";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card.tsx";
 import { Kbd } from "@/components/ui/kbd.tsx";
 import {
   DropdownMenu,
@@ -21,17 +34,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer.tsx";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer.tsx";
 import { cn } from "@/lib/utils.ts";
 import { useState } from "react";
 import Logo from "@/components/logo.tsx";
-import { ButtonGroup, ButtonGroupSeparator, } from "@/components/ui/button-group.tsx";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group.tsx";
 import { useTranslation } from "react-i18next";
-import en from "@/locales/en/en.json";
 import { useUser } from "@/stores/user-store.ts";
 
+type NavigationLabel = "Home" | "Flashcards" | "Dictionary" | "Ranking";
+
 type NavigationItem = {
-  name: keyof typeof en;
+  name: NavigationLabel;
   href: string;
 };
 
@@ -126,8 +149,8 @@ export default function Header() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                  <AvatarImage src={profilePicture} />
-                  <AvatarFallback>{avatarFallback}</AvatarFallback>
+                <AvatarImage src={profilePicture} />
+                <AvatarFallback>{avatarFallback}</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -136,7 +159,10 @@ export default function Header() {
                 <DropdownMenuItem asChild>
                   <NavLink to="/profile">{t("Profile")}</NavLink>
                 </DropdownMenuItem>
-                <DropdownMenuItem variant="destructive" onSelect={() => void handleLogout()}>
+                <DropdownMenuItem
+                  variant="destructive"
+                  onSelect={() => void handleLogout()}
+                >
                   {t("Logout")}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
@@ -247,7 +273,7 @@ function Menu({
                   to={item.href}
                   end
                 >
-                  {t(item.name as string)}
+                  {t(item.name)}
                 </NavLink>
               </NavigationMenuLink>
             </NavigationMenuItem>

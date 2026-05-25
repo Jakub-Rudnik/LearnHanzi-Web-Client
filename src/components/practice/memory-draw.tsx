@@ -9,26 +9,28 @@ import { Button } from "@/components/ui/button.tsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { useTranslation } from "react-i18next";
-
-const RECOGNITION_API_BASE_URL = import.meta.env.VITE_PUBLIC_RECOGNITION_URL;
-
-type PredictionItem = {
-  character: string;
-  confidence: number;
-};
-
-type RecognitionResponse = {
-  character: string;
-  confidence: number;
-  top_predictions?: PredictionItem[] | null;
-};
+import {
+  recognizeHanzi,
+  type RecognitionResponse,
+} from "@/lib/recognition-api.ts";
+import { recordProgress, type ProgressResponse } from "@/lib/progress-api.ts";
 
 type CanvasApi = {
   clear: () => void;
   getImageBase64: () => string | null;
 };
 
-export default function MemoryDrawCard({ char }: { char: string }) {
+export default function MemoryDrawCard({
+  char,
+  hanziId,
+  userId,
+  onProgressRecorded,
+}: {
+  char: string;
+  hanziId: string;
+  userId: string | null;
+  onProgressRecorded?: (progress: ProgressResponse) => void;
+}) {
   const { t } = useTranslation();
   const tr = (key: string) => t(key as never) as string;
   const [canvasApi, setCanvasApi] = useState<CanvasApi | null>(null);
@@ -36,7 +38,9 @@ export default function MemoryDrawCard({ char }: { char: string }) {
   const [recognition, setRecognition] = useState<RecognitionResponse | null>(
     null
   );
+  const [progress, setProgress] = useState<ProgressResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [progressWarning, setProgressWarning] = useState<string | null>(null);
 
   const handleCanvasApiReady = useCallback((api: CanvasApi | null) => {
     setCanvasApi(api);
@@ -45,7 +49,9 @@ export default function MemoryDrawCard({ char }: { char: string }) {
   const handleErase = () => {
     canvasApi?.clear();
     setRecognition(null);
+    setProgress(null);
     setError(null);
+    setProgressWarning(null);
   };
 
   const handleCheck = async () => {
@@ -62,30 +68,33 @@ export default function MemoryDrawCard({ char }: { char: string }) {
 
     setIsChecking(true);
     setError(null);
+    setProgressWarning(null);
+    setProgress(null);
 
     try {
-      const response = await fetch(`${RECOGNITION_API_BASE_URL}/recognize`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ image_base64: imageBase64 }),
+      const payload = await recognizeHanzi({
+        image_base64: imageBase64,
+        character: char,
       });
 
-      const payload = (await response.json().catch(() => null)) as
-        | RecognitionResponse
-        | { detail?: string }
-        | null;
+      setRecognition(payload);
 
-      if (!response.ok) {
-        const message =
-          payload && typeof payload === "object" && "detail" in payload
-            ? (payload.detail ?? tr("practice.memoryDraw.requestFailed"))
-            : tr("practice.memoryDraw.requestFailed");
-        throw new Error(message);
+      if (userId) {
+        try {
+          const savedProgress = await recordProgress({
+            user_id: userId,
+            hanzi_id: hanziId,
+            is_correct: payload.character === char,
+            accuracy_score: payload.confidence,
+            attempt_date: new Date().toISOString(),
+          });
+
+          setProgress(savedProgress);
+          onProgressRecorded?.(savedProgress);
+        } catch {
+          setProgressWarning(tr("practice.memoryDraw.progressFailed"));
+        }
       }
-
-      setRecognition(payload as RecognitionResponse);
     } catch (requestError) {
       const message =
         requestError instanceof Error
@@ -124,6 +133,12 @@ export default function MemoryDrawCard({ char }: { char: string }) {
         <p className="px-6 pb-4 text-sm text-destructive">{error}</p>
       ) : null}
 
+      {progressWarning ? (
+        <p className="px-6 pb-4 text-sm text-amber-600 dark:text-amber-400">
+          {progressWarning}
+        </p>
+      ) : null}
+
       {recognition ? (
         <div className="space-y-1 px-6 pb-4 text-sm">
           {recognition.character == char ? (
@@ -143,6 +158,13 @@ export default function MemoryDrawCard({ char }: { char: string }) {
             {tr("practice.memoryDraw.confidence")}:{" "}
             {(recognition.confidence * 100).toFixed(1)}%
           </p>
+          {progress ? (
+            <p className="font-medium text-primary">
+              {t("practice.memoryDraw.pointsEarned", {
+                points: progress.points_earned,
+              })}
+            </p>
+          ) : null}
           {recognition.top_predictions &&
           recognition.top_predictions.length > 0 ? (
             <p>

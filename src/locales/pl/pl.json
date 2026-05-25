@@ -68,10 +68,12 @@
   "metaForgotPasswordTitle": "Nie pamiętasz hasła?",
   "metaForgotPasswordDescription": "Podaj adres e-mail, aby otrzymać link do resetowania hasła",
   "Forgot password": "Nie pamiętasz hasła",
+  "Enter email to get email with reset password link": "Wpisz e-mail, aby otrzymać link do resetowania hasła",
   "Send link": "Wyślij link",
   "metaResetPasswordTitle": "Zresetuj hasło",
   "metaResetPasswordDescription": "Wpisz nowe hasło",
   "Reset password": "Zresetuj hasło",
+  "Enter new password": "Wpisz nowe hasło",
   "metaSignupTitle": "Rejestracja - LearnHanzi",
   "metaSignupDescription": "Utwórz konto LearnHanzi i zacznij uczyć się chińskich znaków.",
   "Signup to LearnHanzi": "Zarejestruj się w LearnHanzi",
@@ -81,6 +83,9 @@
   "Signup": "Zarejestruj się",
   "practicePage": {
     "accuracy": "{{accuracy}}% poprawnych",
+    "loading": "Ładowanie znaku...",
+    "loadError": "Nie udało się załadować tego znaku.",
+    "notPracticedYet": "Jeszcze nie ćwiczono",
     "aria": {
       "practiceOptions": "Opcje ćwiczenia",
       "favorite": "Ulubione"
@@ -116,6 +121,8 @@
       "incorrect": "Niepoprawnie",
       "predicted": "Rozpoznano",
       "confidence": "Pewność",
+      "pointsEarned": "+{{points}} pkt",
+      "progressFailed": "Rozpoznawanie się udało, ale postęp nie został zapisany.",
       "top": "Najlepsze"
     }
   },
@@ -131,6 +138,55 @@
   },
   "homePage": {
     "WelcomeHeading": "Witamy ponownie",
-    "WelcomeHeadingDescription": "Kontynuuj ćwiczenia, aby poprawić swoje umiejętności i wspiąć się w rankingu!"
+    "WelcomeHeadingDescription": "Kontynuuj ćwiczenia, aby poprawić swoje umiejętności i wspiąć się w rankingu!",
+    "loading": "Ładowanie listy ćwiczeń...",
+    "loadError": "Nie udało się załadować listy ćwiczeń.",
+    "emptySeed": "Słownik nie ma jeszcze wpisów. Uruchom seed bazy słownika, aby zacząć ćwiczyć.",
+    "readyToPractice": "Gotowe do ćwiczenia"
+  },
+  "dictionaryPage": {
+    "description": "Przeglądaj dostępne hanzi, filtruj po trudności i przechodź od razu do ćwiczeń.",
+    "searchPlaceholder": "Szukaj znaku, pinyin, znaczenia lub kategorii...",
+    "loading": "Ładowanie słownika...",
+    "emptySeed": "Słownik nie ma jeszcze wpisów. Uruchom seed bazy słownika, aby pokazać tu znaki.",
+    "noResults": "Brak pasujących znaków.",
+    "noCategory": "Brak kategorii",
+    "practice": "Ćwicz",
+    "level": "Poziom {{level}}",
+    "page": "Strona {{page}}",
+    "previous": "Poprzednia",
+    "next": "Następna",
+    "errors": {
+      "load": "Nie udało się załadować słownika."
+    },
+    "filters": {
+      "all": "Wszystkie",
+      "1": "Poziom 1",
+      "2": "Poziom 2",
+      "3": "Poziom 3",
+      "4plus": "Poziom 4+"
+    },
+    "table": {
+      "character": "Znak",
+      "pinyin": "Pinyin",
+      "meaning": "Znaczenie",
+      "difficulty": "Trudność",
+      "category": "Kategoria",
+      "actions": "Akcje"
+    }
+  },
+  "rankingPage": {
+    "description": "Porównaj sumę punktów zdobytych w zapisanych próbach pisania.",
+    "loading": "Ładowanie rankingu...",
+    "loadError": "Nie udało się załadować rankingu.",
+    "empty": "Ranking jest pusty. Zapisz próbę ćwiczenia, aby się tu pojawić.",
+    "notRankedYet": "Pojawisz się w rankingu po pierwszej zapisanej próbie ćwiczenia.",
+    "userLabel": "Użytkownik {{userId}}",
+    "you": "Ty",
+    "table": {
+      "rank": "Miejsce",
+      "learner": "Uczący się",
+      "points": "Punkty"
+    }
   }
 }

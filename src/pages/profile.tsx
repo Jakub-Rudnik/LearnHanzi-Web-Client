@@ -42,37 +42,31 @@ function getInitials(username: string) {
   return initials || normalized.slice(0, 2).toUpperCase() || "U";
 }
 
-function roleLabel(role: "USER" | "ADMIN", t: (key: string) => string) {
+function roleLabelKey(role: "USER" | "ADMIN") {
   return role === "ADMIN"
-    ? t("profilePage.values.administrator")
-    : t("profilePage.values.user");
+    ? "profilePage.values.administrator"
+    : "profilePage.values.user";
 }
 
 function roleVariant(role: "USER" | "ADMIN") {
   return role === "ADMIN" ? "default" : "outline";
 }
 
-function statusLabel(isActive: boolean, t: (key: string) => string) {
-  return isActive ? t("profilePage.values.active") : t("profilePage.values.inactive");
+function statusLabelKey(isActive: boolean) {
+  return isActive ? "profilePage.values.active" : "profilePage.values.inactive";
 }
 
 function statusVariant(isActive: boolean) {
   return isActive ? "secondary" : "destructive";
 }
 
-function DetailRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex w-full flex-col gap-1 py-2 sm:py-3">
-      <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
         {label}
       </span>
-      <span className="text-sm font-medium text-foreground wrap-break-word">
+      <span className="text-sm font-medium wrap-break-word text-foreground">
         {value}
       </span>
     </div>
@@ -140,7 +134,7 @@ export default function ProfilePage() {
   const { t, i18n } = useTranslation();
   const user = useUser((state) => state.user);
   const isLoading = useUser((state) => state.isLoading);
-  const locale = i18n.language || undefined;
+  const locale = i18n.language || "en-GB";
 
   return (
     <>
@@ -183,10 +177,10 @@ export default function ProfilePage() {
 
                   <div className="flex flex-wrap gap-2">
                     <Badge variant={roleVariant(user.role)}>
-                      {roleLabel(user.role, t)}
+                      {t(roleLabelKey(user.role))}
                     </Badge>
                     <Badge variant={statusVariant(user.is_active)}>
-                      {statusLabel(user.is_active, t)}
+                      {t(statusLabelKey(user.is_active))}
                     </Badge>
                   </div>
                 </div>
@@ -200,21 +194,45 @@ export default function ProfilePage() {
             <Separator />
 
             <div className="flex flex-col gap-4">
-              <DetailRow label={t("profilePage.labels.username")} value={user.username} />
-              <DetailRow label={t("profilePage.labels.email")} value={user.email} />
-              <DetailRow label={t("profilePage.labels.role")} value={roleLabel(user.role, t)} />
-              <DetailRow label={t("profilePage.labels.status")} value={statusLabel(user.is_active, t)} />
+              <DetailRow
+                label={t("profilePage.labels.username")}
+                value={user.username}
+              />
+              <DetailRow
+                label={t("profilePage.labels.email")}
+                value={user.email}
+              />
+              <DetailRow
+                label={t("profilePage.labels.role")}
+                value={t(roleLabelKey(user.role))}
+              />
+              <DetailRow
+                label={t("profilePage.labels.status")}
+                value={t(statusLabelKey(user.is_active))}
+              />
               <DetailRow
                 label={t("profilePage.labels.memberSince")}
-                value={formatDate(user.created_at, locale, t("profilePage.values.never"))}
+                value={formatDate(
+                  user.created_at,
+                  locale,
+                  t("profilePage.values.never")
+                )}
               />
               <DetailRow
                 label={t("profilePage.labels.lastLogin")}
-                value={formatDate(user.last_login_at, locale, t("profilePage.values.never"))}
+                value={formatDate(
+                  user.last_login_at,
+                  locale,
+                  t("profilePage.values.never")
+                )}
               />
               <DetailRow
                 label={t("profilePage.labels.updatedAt")}
-                value={formatDate(user.updated_at, locale, t("profilePage.values.never"))}
+                value={formatDate(
+                  user.updated_at,
+                  locale,
+                  t("profilePage.values.never")
+                )}
               />
             </div>
           </div>

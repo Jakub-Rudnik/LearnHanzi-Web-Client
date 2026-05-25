@@ -68,10 +68,12 @@
   "metaForgotPasswordTitle": "Forgot password",
   "metaForgotPasswordDescription": "Enter email to get email with reset password link",
   "Forgot password": "Forgot password",
+  "Enter email to get email with reset password link": "Enter email to get email with reset password link",
   "Send link": "Send link",
   "metaResetPasswordTitle": "Reset password",
   "metaResetPasswordDescription": "Enter new password",
   "Reset password": "Reset password",
+  "Enter new password": "Enter new password",
   "metaSignupTitle": "Sign up - LearnHanzi",
   "metaSignupDescription": "Create your LearnHanzi account and start learning Chinese characters.",
   "Signup to LearnHanzi": "Signup to LearnHanzi",
@@ -81,10 +83,17 @@
   "Signup": "Signup",
   "homePage": {
     "WelcomeHeading": "Welcome back",
-    "WelcomeHeadingDescription": "Continue practicing to improve your skills and climb the rankings!"
+    "WelcomeHeadingDescription": "Continue practicing to improve your skills and climb the rankings!",
+    "loading": "Loading practice list...",
+    "loadError": "Could not load practice list.",
+    "emptySeed": "The dictionary has no entries yet. Seed the dictionary database to start practicing.",
+    "readyToPractice": "Ready to practice"
   },
   "practicePage": {
     "accuracy": "{{accuracy}}% correct",
+    "loading": "Loading character...",
+    "loadError": "Could not load this character.",
+    "notPracticedYet": "Not practiced yet",
     "aria": {
       "practiceOptions": "Practice options",
       "favorite": "Favorite"
@@ -120,6 +129,8 @@
       "incorrect": "Incorrect",
       "predicted": "Predicted",
       "confidence": "Confidence",
+      "pointsEarned": "+{{points}} points",
+      "progressFailed": "Recognition succeeded, but progress was not saved.",
       "top": "Top"
     }
   },
@@ -132,5 +143,50 @@
     "level": "Level",
     "status": "Status",
     "favorite": "Favorite"
+  },
+  "dictionaryPage": {
+    "description": "Browse the available hanzi, filter by difficulty, and jump straight into practice.",
+    "searchPlaceholder": "Search character, pinyin, meaning, or category...",
+    "loading": "Loading dictionary...",
+    "emptySeed": "The dictionary has no entries yet. Seed the dictionary database to show characters here.",
+    "noResults": "No matching characters.",
+    "noCategory": "No category",
+    "practice": "Practice",
+    "level": "Level {{level}}",
+    "page": "Page {{page}}",
+    "previous": "Previous",
+    "next": "Next",
+    "errors": {
+      "load": "Could not load dictionary."
+    },
+    "filters": {
+      "all": "All",
+      "1": "Level 1",
+      "2": "Level 2",
+      "3": "Level 3",
+      "4plus": "Level 4+"
+    },
+    "table": {
+      "character": "Character",
+      "pinyin": "Pinyin",
+      "meaning": "Meaning",
+      "difficulty": "Difficulty",
+      "category": "Category",
+      "actions": "Actions"
+    }
+  },
+  "rankingPage": {
+    "description": "Compare total points earned through saved writing practice attempts.",
+    "loading": "Loading ranking...",
+    "loadError": "Could not load ranking.",
+    "empty": "Ranking is empty. Save a practice attempt to appear here.",
+    "notRankedYet": "You will appear in the ranking after your first saved practice attempt.",
+    "userLabel": "User {{userId}}",
+    "you": "You",
+    "table": {
+      "rank": "Rank",
+      "learner": "Learner",
+      "points": "Points"
+    }
   }
 }
