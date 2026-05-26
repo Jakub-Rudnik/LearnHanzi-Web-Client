@@ -1,19 +1,11 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card.tsx";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { useTranslation } from "react-i18next";
-import {
-  recognizeHanzi,
-  type RecognitionResponse,
-} from "@/lib/recognition-api.ts";
-import { recordProgress, type ProgressResponse } from "@/lib/progress-api.ts";
+import { type RecognitionResponse, recognizeHanzi, } from "@/lib/recognition-api.ts";
+import { type ProgressResponse, recordProgress } from "@/lib/progress-api.ts";
+import { cn } from "@/lib/utils.ts";
 
 type CanvasApi = {
   clear: () => void;
@@ -81,10 +73,12 @@ export default function MemoryDrawCard({
 
       if (userId) {
         try {
+          const isCorrect = payload.confidence > 0.6;
+
           const savedProgress = await recordProgress({
             user_id: userId,
             hanzi_id: hanziId,
-            is_correct: payload.character === char,
+            is_correct: isCorrect,
             accuracy_score: payload.confidence,
             attempt_date: new Date().toISOString(),
           });
@@ -141,7 +135,7 @@ export default function MemoryDrawCard({
 
       {recognition ? (
         <div className="space-y-1 px-6 pb-4 text-sm">
-          {recognition.character == char ? (
+          {recognition.confidence > 0.6 ? (
             <Badge>{tr("practice.memoryDraw.correct")}</Badge>
           ) : (
             <Badge variant="destructive">
@@ -159,7 +153,12 @@ export default function MemoryDrawCard({
             {(recognition.confidence * 100).toFixed(1)}%
           </p>
           {progress ? (
-            <p className="font-medium text-primary">
+            <p
+              className={cn(
+                progress.is_correct ? "text-primary" : "text-black",
+                ""
+              )}
+            >
               {t("practice.memoryDraw.pointsEarned", {
                 points: progress.points_earned,
               })}

@@ -74,10 +74,19 @@ export function LoginForm({ className, ...props }: ComponentProps<"form">) {
         </Field>
         <Field>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Logging in..." : t("Login")}
+            {isSubmitting ? t("authLinks.loggingIn") : t("Login")}
           </Button>
         </Field>
         {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        <p className="text-center text-sm text-muted-foreground">
+          {t("authLinks.noAccount")}{" "}
+          <Link
+            to="/signup"
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
+            {t("authLinks.goToSignup")}
+          </Link>
+        </p>
       </FieldGroup>
     </form>
   );

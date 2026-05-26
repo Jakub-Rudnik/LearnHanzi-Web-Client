@@ -78,11 +78,43 @@
   "metaPracticeDescription": "Ćwicz chiński znak z animacją, kolejnością kresek i rysowaniem z pamięci.",
   "metaRankingTitle": "Ranking - LearnHanzi",
   "metaRankingDescription": "Śledź swoje postępy i porównuj wynik LearnHanzi z innymi uczącymi się.",
-  "metaLandingTitle": "LearnHanzi - ucz się hanzi w prosty sposób",
-  "metaLandingDescription": "Tymczasowa strona startowa LearnHanzi. Zacznij uczyć się chińskich znaków dzięki ukierunkowanej praktyce i śledź swoje postępy.",
+  "metaLandingTitle": "LearnHanzi - praktyczna nauka hanzi",
+  "metaLandingDescription": "Ucz się chińskich znaków przez pisanie, fiszki, słownik i czytelne postępy w jednym miejscu.",
   "Temporary landing page": "Tymczasowa strona startowa",
   "Learn Hanzi with daily practice and clear progress.": "Ucz się hanzi dzięki codziennej praktyce i czytelnym postępom.",
   "Build your Chinese character knowledge with flashcards, dictionary lookups, and friendly competition.": "Rozwijaj swoją wiedzę o chińskich znakach dzięki fiszkom, wyszukiwaniu w słowniku i przyjaznej rywalizacji.",
+  "landingPage": {
+    "hero": {
+      "badge": "Nauka hanzi bez chaosu w notatkach",
+      "title": "Chińskie znaki, które naprawdę zostają w pamięci.",
+      "subtitle": "LearnHanzi łączy ćwiczenie pisania, fiszki, słownik i postępy w jednym spokojnym narzędziu do codziennej nauki.",
+      "primary": "Zacznij naukę",
+      "secondary": "Zobacz słownik"
+    },
+    "metrics": {
+      "modules": "moduły nauki w jednym przepływie",
+      "characters": "znaków gotowych do ćwiczeń",
+      "practice": "krótkie sesje, kiedy masz czas"
+    },
+    "preview": {
+      "title": "Dzisiejsza praktyka",
+      "badge": "aktywnie"
+    },
+    "features": {
+      "practice": {
+        "title": "Pisz, nie tylko oglądaj",
+        "description": "Ćwicz kolejność kresek i rysowanie z pamięci, a wynik zapisuje się jako realny postęp."
+      },
+      "flashcards": {
+        "title": "Fiszki dopasowane do Ciebie",
+        "description": "Twórz własne zestawy, oznaczaj trudne znaki i wracaj do tych, które wymagają powtórki."
+      },
+      "progress": {
+        "title": "Postęp bez zgadywania",
+        "description": "Strona główna pokazuje ostatnio ćwiczone znaki, skuteczność i ulubione elementy nauki."
+      }
+    }
+  },
   "Create account": "Utwórz konto",
   "Log in": "Zaloguj się",
   "Go to app": "Przejdź do aplikacji",
@@ -95,6 +127,14 @@
   "Forgot your password?": "Nie pamiętasz hasła?",
   "Password": "Hasło",
   "Login": "Zaloguj się",
+  "authLinks": {
+    "loggingIn": "Logowanie...",
+    "signingUp": "Rejestrowanie...",
+    "noAccount": "Nie masz jeszcze konta?",
+    "hasAccount": "Masz już konto?",
+    "goToSignup": "Zarejestruj się",
+    "goToLogin": "Zaloguj się"
+  },
   "metaForgotPasswordTitle": "Nie pamiętasz hasła?",
   "metaForgotPasswordDescription": "Podaj adres e-mail, aby otrzymać link do resetowania hasła",
   "Forgot password": "Nie pamiętasz hasła",

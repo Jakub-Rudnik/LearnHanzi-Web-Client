@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type { ComponentProps, FormEvent } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useUser } from "@/stores/user-store.ts";
 
@@ -80,10 +80,19 @@ export function SignupForm({ className, ...props }: ComponentProps<"form">) {
         </Field>
         <Field>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Signing up..." : t("Signup")}
+            {isSubmitting ? t("authLinks.signingUp") : t("Signup")}
           </Button>
         </Field>
         {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        <p className="text-center text-sm text-muted-foreground">
+          {t("authLinks.hasAccount")}{" "}
+          <Link
+            to="/login"
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
+            {t("authLinks.goToLogin")}
+          </Link>
+        </p>
       </FieldGroup>
     </form>
   );

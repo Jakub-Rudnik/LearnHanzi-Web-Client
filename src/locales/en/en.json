@@ -78,11 +78,43 @@
   "metaPracticeDescription": "Practice a Chinese character with animation, stroke order, and memory drawing exercises.",
   "metaRankingTitle": "Ranking - LearnHanzi",
   "metaRankingDescription": "Track your progress and compare your LearnHanzi score with other learners.",
-  "metaLandingTitle": "LearnHanzi - Learn Hanzi the easy way",
-  "metaLandingDescription": "A temporary landing page for LearnHanzi. Start learning Chinese characters with focused practice and track your progress.",
+  "metaLandingTitle": "LearnHanzi - Practical Hanzi Learning",
+  "metaLandingDescription": "Learn Chinese characters with writing practice, flashcards, dictionary lookup, and clear progress in one place.",
   "Temporary landing page": "Temporary landing page",
   "Learn Hanzi with daily practice and clear progress.": "Learn Hanzi with daily practice and clear progress.",
   "Build your Chinese character knowledge with flashcards, dictionary lookups, and friendly competition.": "Build your Chinese character knowledge with flashcards, dictionary lookups, and friendly competition.",
+  "landingPage": {
+    "hero": {
+      "badge": "Hanzi practice without scattered notes",
+      "title": "Chinese characters that actually stay with you.",
+      "subtitle": "LearnHanzi brings writing practice, flashcards, dictionary lookup, and progress tracking into one calm daily learning workflow.",
+      "primary": "Start learning",
+      "secondary": "Explore dictionary"
+    },
+    "metrics": {
+      "modules": "learning modules in one workflow",
+      "characters": "characters ready to practice",
+      "practice": "short sessions whenever you have time"
+    },
+    "preview": {
+      "title": "Today's practice",
+      "badge": "active"
+    },
+    "features": {
+      "practice": {
+        "title": "Write, not just recognize",
+        "description": "Practice stroke order and memory drawing while each result becomes measurable progress."
+      },
+      "flashcards": {
+        "title": "Flashcards shaped by your work",
+        "description": "Build custom sets, mark difficult characters, and return to the items that need repetition."
+      },
+      "progress": {
+        "title": "Progress without guesswork",
+        "description": "Your home view surfaces recently practiced characters, accuracy, and favorite study material."
+      }
+    }
+  },
   "Create account": "Create account",
   "Log in": "Log in",
   "Go to app": "Go to app",
@@ -95,6 +127,14 @@
   "Forgot your password?": "Forgot your password?",
   "Password": "Password",
   "Login": "Login",
+  "authLinks": {
+    "loggingIn": "Logging in...",
+    "signingUp": "Signing up...",
+    "noAccount": "Do not have an account yet?",
+    "hasAccount": "Already have an account?",
+    "goToSignup": "Create account",
+    "goToLogin": "Log in"
+  },
   "metaForgotPasswordTitle": "Forgot password",
   "metaForgotPasswordDescription": "Enter email to get email with reset password link",
   "Forgot password": "Forgot password",
