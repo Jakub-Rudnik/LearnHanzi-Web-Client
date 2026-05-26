@@ -109,8 +109,11 @@ export default function LearnCharPage() {
   return (
     <>
       <PageMeta
-        title={t("metaProfileTitle")}
-        description={t("metaProfileDescription")}
+        title={t("metaPracticeTitle", "Practice - LearnHanzi")}
+        description={t(
+          "metaPracticeDescription",
+          "Practice a Chinese character with animation, stroke order, and memory drawing exercises."
+        )}
       />
 
       {isLoading ? (

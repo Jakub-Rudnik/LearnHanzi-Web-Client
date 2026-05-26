@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getMyIdentity, getPublicUser } from "@/lib/auth-api.ts";
@@ -20,13 +20,18 @@ import {
   useUser,
 } from "@/stores/user-store.ts";
 
-function shortUserId(userId: string) {
-  return userId.slice(0, 8);
-}
-
 export default function RankingPage() {
   const { t } = useTranslation();
   const user = useUser((state) => state.user);
+  const authSession = useMemo(
+    () => ({
+      getAccessToken,
+      getRefreshToken,
+      applyAuthResponse: useUser.getState().applyAuthResponse,
+      clearAuth: useUser.getState().clearUser,
+    }),
+    []
+  );
   const [ranking, setRanking] = useState<RankingItem[]>([]);
   const [currentUsername, setCurrentUsername] = useState<string | null>(null);
   const [usernames, setUsernames] = useState<Record<string, string>>({});
@@ -40,12 +45,7 @@ export default function RankingPage() {
 
     let isActive = true;
 
-    getMyIdentity({
-      getAccessToken,
-      getRefreshToken,
-      applyAuthResponse: useUser.getState().applyAuthResponse,
-      clearAuth: useUser.getState().clearUser,
-    })
+    getMyIdentity(authSession)
       .then((identity) => {
         if (isActive) {
           setCurrentUsername(identity.username);
@@ -60,7 +60,7 @@ export default function RankingPage() {
     return () => {
       isActive = false;
     };
-  }, [user]);
+  }, [user, authSession]);
 
   useEffect(() => {
     if (ranking.length === 0) return;
@@ -74,7 +74,7 @@ export default function RankingPage() {
     let isActive = true;
 
     Promise.allSettled(
-      missing.map((id) => getPublicUser(id))
+      missing.map((id) => getPublicUser(id, authSession))
     ).then((results) => {
       if (!isActive) return;
 
@@ -90,7 +90,7 @@ export default function RankingPage() {
             console.warn("Failed to fetch username for", id, "reason:", res.reason);
           }
 
-          next[id] = shortUserId(id);
+          next[id] = t("rankingPage.userFallback");
         }
       });
 
@@ -100,7 +100,7 @@ export default function RankingPage() {
     return () => {
       isActive = false;
     };
-  }, [ranking, user?.id, usernames]);
+  }, [ranking, user?.id, usernames, t, authSession]);
 
   useEffect(() => {
     let isActive = true;
@@ -183,11 +183,9 @@ export default function RankingPage() {
                   {ranking.map((item, index) => {
                     const isCurrentUser = user?.id === item.user_id;
                     const label = isCurrentUser
-                      ? currentUsername ?? user?.username ?? shortUserId(item.user_id)
+                      ? currentUsername ?? user?.username ?? t("rankingPage.userFallback")
                       : usernames[item.user_id]
-                      ?? t("rankingPage.userLabel", {
-                          userId: shortUserId(item.user_id),
-                        });
+                      ?? t("rankingPage.userFallback");
 
                     return (
                       <TableRow

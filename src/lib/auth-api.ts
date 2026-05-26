@@ -235,10 +235,15 @@ export function getMyIdentity(session: AuthSession) {
   );
 }
 
-export function getPublicUser(userId: string) {
-  return request<PublicUser>(API_BASE_URL, `/users/${userId}/basic`, {
-    method: "GET",
-  });
+export function getPublicUser(userId: string, session: AuthSession) {
+  return requestWithAuth<PublicUser>(
+    API_BASE_URL,
+    `/users/${userId}/basic`,
+    session,
+    {
+      method: "GET",
+    }
+  );
 }
 
 export function updateMyProfile(data: UserProfileUpdate, accessToken: string) {
