@@ -7,7 +7,6 @@ Official web client for [LearnHanzi](https://github.com/Jakub-Rudnik/LearnHanzi-
 ```bash
 make build
 make up
-make up
 ```
 
 `make` auto-detects `podman` first, then falls back to `docker`.
@@ -41,3 +40,5 @@ If you changed volume settings, recreate the app container once:
 make down
 make up
 ```
+
+Docker uses named volumes for `node_modules` and the `pnpm` store, so you do not need to create those folders on the host.
