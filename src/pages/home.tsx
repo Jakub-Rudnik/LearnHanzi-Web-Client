@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import PageMeta from "@/components/seo/page-meta.tsx";
 import { TypographyH2, TypographyP } from "@/components/typography.tsx";
 import { DataTable } from "@/components/user-results/data-table.tsx";
-import { type Hanzi, listHanzi } from "@/lib/dictionary-api.ts";
+import { getHanziById, type Hanzi } from "@/lib/dictionary-api.ts";
+import { listFavoriteHanzi } from "@/lib/flashcard-api.ts";
+import { getUserHanziProgress } from "@/lib/progress-api.ts";
 import { useUser } from "@/stores/user-store.ts";
 
 type MeaningText = {
@@ -18,9 +20,18 @@ type HomeResultEntry = {
   meaning: MeaningText;
   lastPractised: Date;
   level: number;
+  status: boolean;
+  favorite: boolean;
 };
 
-function mapHanziToHomeEntry(hanzi: Hanzi): HomeResultEntry {
+function mapHanziToHomeEntry(
+  hanzi: Hanzi,
+  options: {
+    lastPractised: string;
+    status: boolean;
+    favorite: boolean;
+  }
+): HomeResultEntry {
   return {
     character: hanzi.character,
     pronunciation: hanzi.pinyin,
@@ -28,25 +39,52 @@ function mapHanziToHomeEntry(hanzi: Hanzi): HomeResultEntry {
       en: hanzi.meaning_en,
       pl: hanzi.meaning_pl,
     },
-    lastPractised: new Date(),
+    lastPractised: new Date(options.lastPractised),
     level: hanzi.difficulty_level,
+    status: options.status,
+    favorite: options.favorite,
   };
 }
 
 export default function HomePage() {
   const { t } = useTranslation();
   const user = useUser((state) => state.user);
-  const [hanzi, setHanzi] = useState<Hanzi[]>([]);
+  const [entries, setEntries] = useState<HomeResultEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!user) {
+      setEntries([]);
+      setIsLoading(false);
+      return;
+    }
+
     let isActive = true;
 
-    listHanzi({ limit: 100, offset: 0 })
-      .then((data) => {
+    Promise.all([
+      getUserHanziProgress(user.id),
+      listFavoriteHanzi().catch(() => []),
+    ])
+      .then(async ([progressItems, favoriteItems]) => {
+        const favoriteIds = new Set(favoriteItems.map((item) => item.hanzi.id));
+        const hanziItems = await Promise.all(
+          progressItems.map(async (item) => ({
+            progress: item,
+            hanzi: await getHanziById(item.hanzi_id),
+          }))
+        );
+
         if (isActive) {
-          setHanzi(data);
+          setEntries(
+            hanziItems.map(({ progress, hanzi }) =>
+              mapHanziToHomeEntry(hanzi, {
+                lastPractised: progress.last_attempt_date,
+                status: progress.last_is_correct,
+                favorite: favoriteIds.has(hanzi.id),
+              })
+            )
+          );
           setError(null);
         }
       })
@@ -57,7 +95,7 @@ export default function HomePage() {
               ? requestError.message
               : t("homePage.loadError")
           );
-          setHanzi([]);
+          setEntries([]);
         }
       })
       .finally(() => {
@@ -69,11 +107,9 @@ export default function HomePage() {
     return () => {
       isActive = false;
     };
-  }, [t]);
+  }, [t, user]);
 
-  const tableData = useMemo(() => {
-    return hanzi.map((item) => mapHanziToHomeEntry(item));
-  }, [hanzi]);
+  const tableData = useMemo(() => entries, [entries]);
 
   return (
     <>
@@ -100,7 +136,7 @@ export default function HomePage() {
           </div>
         ) : tableData.length === 0 ? (
           <div className="w-full rounded-lg border p-4 text-sm text-muted-foreground">
-            {t("homePage.emptySeed")}
+            {t("homePage.emptyProgress")}
           </div>
         ) : (
           <DataTable data={tableData} />

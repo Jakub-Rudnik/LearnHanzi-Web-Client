@@ -23,6 +23,13 @@ export type RankingItem = {
   total_points: number;
 };
 
+export type UserHanziProgress = {
+  hanzi_id: string;
+  last_accuracy_score: number;
+  last_is_correct: boolean;
+  last_attempt_date: string;
+};
+
 export function recordProgress(event: ProgressEvent) {
   return apiRequest<ProgressResponse>(PROGRESS_API_BASE_URL, "/progress/", {
     method: "POST",
@@ -60,4 +67,14 @@ export function getRanking(limit = 100) {
     method: "GET",
     params: { limit },
   });
+}
+
+export function getUserHanziProgress(userId: string) {
+  return apiRequest<UserHanziProgress[]>(
+    PROGRESS_API_BASE_URL,
+    `/progress/user/${encodeURIComponent(userId)}/hanzi`,
+    {
+      method: "GET",
+    }
+  );
 }

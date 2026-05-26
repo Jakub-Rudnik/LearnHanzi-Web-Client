@@ -20,6 +20,7 @@ import { listHanzi, type Hanzi } from "@/lib/dictionary-api.ts";
 import {
   addDifficultHanzi,
   addFavoriteHanzi,
+  addCardToFlashcardSet,
   createFlashcardSet,
   deleteFlashcardSet,
   getFlashcardSet,
@@ -29,6 +30,7 @@ import {
   listFlashcardSets,
   removeDifficultHanzi,
   removeFavoriteHanzi,
+  removeCardFromFlashcardSet,
   updateFlashcardSet,
   type FlashcardSet,
   type FlashcardSetSummary,
@@ -81,12 +83,14 @@ function HanziPicker({
   onToggle,
   query,
   onQueryChange,
+  pendingHanziId,
 }: {
   dictionary: Hanzi[];
   selectedIds: string[];
   onToggle: (hanziId: string) => void;
   query: string;
   onQueryChange: (query: string) => void;
+  pendingHanziId?: string | null;
 }) {
   const { t, i18n } = useTranslation();
   const selected = new Set(selectedIds);
@@ -126,6 +130,7 @@ function HanziPicker({
                 type="checkbox"
                 className="mt-2"
                 checked={selected.has(hanzi.id)}
+                disabled={pendingHanziId === hanzi.id}
                 onChange={() => onToggle(hanzi.id)}
               />
               <span className="text-2xl font-semibold">{hanzi.character}</span>
@@ -157,11 +162,13 @@ function SetForm({
   dictionary,
   onCancel,
   onSaved,
+  onSetUpdated,
 }: {
   editingSet: EditingSet;
   dictionary: Hanzi[];
   onCancel: () => void;
   onSaved: () => void;
+  onSetUpdated: (set: FlashcardSet) => void;
 }) {
   const { t } = useTranslation();
   const [name, setName] = useState(editingSet?.name ?? "");
@@ -174,6 +181,7 @@ function SetForm({
   );
   const [query, setQuery] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingHanziId, setPendingHanziId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const originalIds = useMemo(
@@ -185,12 +193,46 @@ function SetForm({
     [editingSet]
   );
 
-  const toggleHanzi = (hanziId: string) => {
-    setSelectedIds((current) =>
-      current.includes(hanziId)
-        ? current.filter((id) => id !== hanziId)
-        : [...current, hanziId]
+  const syncSelectedIds = (set: FlashcardSet) => {
+    setSelectedIds(
+      set.cards
+        .slice()
+        .sort((a, b) => a.position - b.position)
+        .map((card) => card.hanzi_id)
     );
+  };
+
+  const toggleHanzi = async (hanziId: string) => {
+    const isSelected = selectedIds.includes(hanziId);
+
+    if (!editingSet) {
+      setSelectedIds((current) =>
+        isSelected
+          ? current.filter((id) => id !== hanziId)
+          : [...current, hanziId]
+      );
+      return;
+    }
+
+    setPendingHanziId(hanziId);
+    setError(null);
+
+    try {
+      const updatedSet = isSelected
+        ? await removeCardFromFlashcardSet(editingSet.id, hanziId)
+        : await addCardToFlashcardSet(editingSet.id, hanziId);
+
+      syncSelectedIds(updatedSet);
+      onSetUpdated(updatedSet);
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : t("flashcardsPage.errors.card")
+      );
+    } finally {
+      setPendingHanziId(null);
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -296,9 +338,10 @@ function SetForm({
               <HanziPicker
                 dictionary={dictionary}
                 selectedIds={selectedIds}
-                onToggle={toggleHanzi}
+                onToggle={(hanziId) => void toggleHanzi(hanziId)}
                 query={query}
                 onQueryChange={setQuery}
+                pendingHanziId={pendingHanziId}
               />
             </Field>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -310,11 +353,16 @@ function SetForm({
               <Button type="button" variant="outline" onClick={onCancel}>
                 {t("flashcardsPage.cancel")}
               </Button>
-              <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-muted-foreground">
                 {t("flashcardsPage.form.selected", {
                   count: selectedIds.length,
                 })}
               </span>
+              {editingSet ? (
+                <span className="text-sm text-muted-foreground">
+                  {t("flashcardsPage.form.instantCards")}
+                </span>
+              ) : null}
             </div>
             {error ? <p className="text-sm text-destructive">{error}</p> : null}
           </FieldGroup>
@@ -741,6 +789,23 @@ export default function FlashCardsPage() {
     });
   };
 
+  const updateEditedSet = (set: FlashcardSet) => {
+    setEditingSet(set);
+    setSets((current) =>
+      current.map((item) =>
+        item.id === set.id
+          ? {
+              ...item,
+              name: set.name,
+              description: set.description,
+              cards_count: set.cards_count,
+              updated_at: set.updated_at,
+            }
+          : item
+      )
+    );
+  };
+
   const removeMarked = async (hanziId: string) => {
     setError(null);
 
@@ -826,6 +891,7 @@ export default function FlashCardsPage() {
                 setEditingSet(null);
               }}
               onSaved={() => void handleSaved()}
+              onSetUpdated={updateEditedSet}
             />
           )
         ) : null}

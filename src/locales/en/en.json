@@ -136,6 +136,7 @@
     "loading": "Loading practice list...",
     "loadError": "Could not load practice list.",
     "emptySeed": "The dictionary has no entries yet. Seed the dictionary database to start practicing.",
+    "emptyProgress": "You do not have saved attempts yet. Open a character and complete your first exercise to see it here.",
     "readyToPractice": "Ready to practice"
   },
   "practicePage": {
@@ -189,6 +190,8 @@
     "pronunciation": "Pronunciation",
     "meaning": "Meaning",
     "lastPractised": "Last practiced",
+    "status": "Status",
+    "favorite": "Favorite",
     "level": "Level"
   },
   "dictionaryPage": {
@@ -253,7 +256,8 @@
       "save": "Could not save this set.",
       "delete": "Could not delete this set.",
       "study": "Could not start study mode.",
-      "flag": "Could not update this marker."
+      "flag": "Could not update this marker.",
+      "card": "Could not update this card in the set."
     },
     "form": {
       "createTitle": "New flashcard set",
@@ -268,6 +272,7 @@
       "save": "Save set",
       "saving": "Saving...",
       "selected": "Selected: {{count}}",
+      "instantCards": "Card changes in this set are saved immediately.",
       "validation": {
         "name": "Enter a set name.",
         "hanzi": "Select at least one character."

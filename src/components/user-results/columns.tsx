@@ -15,6 +15,8 @@ export type ResultEntry = {
   meaning: MeaningText;
   lastPractised: Date;
   level: number;
+  status?: boolean;
+  favorite?: boolean;
 };
 
 const getDisplayLanguage = (language: string) =>
@@ -75,6 +77,34 @@ export const getColumns = (
           {date.toLocaleDateString(i18n.language)}
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: () => t("userResultsTable.status"),
+    cell: ({ row }) => {
+      const status = row.getValue("status") as boolean | undefined;
+
+      if (status === undefined) {
+        return null;
+      }
+
+      return status
+        ? t("practice.memoryDraw.correct")
+        : t("practice.memoryDraw.incorrect");
+    },
+  },
+  {
+    accessorKey: "favorite",
+    header: () => t("userResultsTable.favorite"),
+    cell: ({ row }) => {
+      const favorite = row.getValue("favorite") as boolean | undefined;
+
+      if (favorite === undefined) {
+        return null;
+      }
+
+      return favorite ? t("flashcardsPage.study.favorite") : "";
     },
   },
   {
