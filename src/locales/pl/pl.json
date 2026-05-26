@@ -74,6 +74,8 @@
   "metaDictionaryDescription": "Szukaj i poznawaj znaczenia, czytania oraz przykłady chińskich znaków.",
   "metaFlashCardsTitle": "Fiszki - LearnHanzi",
   "metaFlashCardsDescription": "Powtarzaj i zapamiętuj hanzi szybciej dzięki interaktywnym fiszkom LearnHanzi.",
+  "metaPracticeTitle": "Ćwiczenia - LearnHanzi",
+  "metaPracticeDescription": "Ćwicz chiński znak z animacją, kolejnością kresek i rysowaniem z pamięci.",
   "metaRankingTitle": "Ranking - LearnHanzi",
   "metaRankingDescription": "Śledź swoje postępy i porównuj wynik LearnHanzi z innymi uczącymi się.",
   "metaLandingTitle": "LearnHanzi - ucz się hanzi w prosty sposób",
@@ -289,7 +291,7 @@
     "loadError": "Nie udało się załadować rankingu.",
     "empty": "Ranking jest pusty. Zapisz próbę ćwiczenia, aby się tu pojawić.",
     "notRankedYet": "Pojawisz się w rankingu po pierwszej zapisanej próbie ćwiczenia.",
-    "userLabel": "Użytkownik {{userId}}",
+    "userFallback": "Użytkownik",
     "you": "Ty",
     "table": {
       "rank": "Miejsce",

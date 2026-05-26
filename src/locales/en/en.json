@@ -74,6 +74,8 @@
   "metaDictionaryDescription": "Search and explore Chinese character meanings, readings, and examples.",
   "metaFlashCardsTitle": "Flash Cards - LearnHanzi",
   "metaFlashCardsDescription": "Review and memorize hanzi faster with interactive LearnHanzi flash cards.",
+  "metaPracticeTitle": "Practice - LearnHanzi",
+  "metaPracticeDescription": "Practice a Chinese character with animation, stroke order, and memory drawing exercises.",
   "metaRankingTitle": "Ranking - LearnHanzi",
   "metaRankingDescription": "Track your progress and compare your LearnHanzi score with other learners.",
   "metaLandingTitle": "LearnHanzi - Learn Hanzi the easy way",
@@ -289,7 +291,7 @@
     "loadError": "Could not load ranking.",
     "empty": "Ranking is empty. Save a practice attempt to appear here.",
     "notRankedYet": "You will appear in the ranking after your first saved practice attempt.",
-    "userLabel": "User {{userId}}",
+    "userFallback": "User",
     "you": "You",
     "table": {
       "rank": "Rank",
