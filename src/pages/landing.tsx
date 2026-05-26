@@ -25,10 +25,10 @@ export default function LandingPage() {
         description={t("metaLandingDescription")}
       />
 
-      <main className="min-h-screen overflow-hidden bg-[oklch(0.985_0.012_150)] text-foreground">
+      <main className="min-h-screen overflow-hidden bg-[oklch(0.985_0.012_150)] text-[oklch(0.145_0.008_326)] dark:bg-[oklch(0.145_0.008_326)] dark:text-[oklch(0.985_0_0)]">
         <section className="relative isolate flex min-h-[88svh] flex-col px-4 sm:px-6 lg:px-8">
-          <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_20%_20%,oklch(0.91_0.10_152)_0,transparent_30%),radial-gradient(circle_at_78%_16%,oklch(0.84_0.08_92)_0,transparent_28%),linear-gradient(135deg,oklch(0.99_0.006_150),oklch(0.94_0.026_164))]" />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,oklch(0.35_0.02_150/0.08)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.35_0.02_150/0.08)_1px,transparent_1px)] bg-[size:64px_64px]" />
+          <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_20%_20%,oklch(0.91_0.10_152)_0,transparent_30%),radial-gradient(circle_at_78%_16%,oklch(0.84_0.08_92)_0,transparent_28%),linear-gradient(135deg,oklch(0.99_0.006_150),oklch(0.94_0.026_164))] dark:bg-[radial-gradient(circle_at_18%_18%,oklch(0.42_0.11_152/0.42)_0,transparent_32%),radial-gradient(circle_at_80%_18%,oklch(0.44_0.08_92/0.34)_0,transparent_30%),linear-gradient(135deg,oklch(0.15_0.014_326),oklch(0.20_0.032_154))]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,oklch(0.35_0.02_150/0.08)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.35_0.02_150/0.08)_1px,transparent_1px)] bg-[size:64px_64px] dark:bg-[linear-gradient(to_right,oklch(0.98_0_0/0.08)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.98_0_0/0.08)_1px,transparent_1px)]" />
 
           <header className="mx-auto flex w-full max-w-7xl items-center justify-between py-5">
             <Logo to="/" />
@@ -44,7 +44,10 @@ export default function LandingPage() {
 
           <div className="mx-auto grid w-full max-w-7xl flex-1 content-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center">
             <div className="max-w-4xl space-y-8">
-              <Badge variant="secondary" className="h-auto rounded-lg px-3 py-1.5">
+              <Badge
+                variant="secondary"
+                className="h-auto rounded-lg bg-background/80 px-3 py-1.5 text-foreground dark:bg-background/70"
+              >
                 {t("landingPage.hero.badge")}
               </Badge>
 
@@ -52,7 +55,7 @@ export default function LandingPage() {
                 <h1 className="max-w-5xl text-5xl font-semibold leading-[0.96] tracking-normal text-balance sm:text-6xl lg:text-7xl">
                   {t("landingPage.hero.title")}
                 </h1>
-                <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+                <p className="max-w-2xl text-base leading-7 text-[oklch(0.46_0.025_326)] sm:text-lg dark:text-[oklch(0.83_0.012_155)]">
                   {t("landingPage.hero.subtitle")}
                 </p>
               </div>
@@ -68,7 +71,7 @@ export default function LandingPage() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="w-full border-foreground/15 bg-background/60 backdrop-blur sm:w-auto"
+                  className="w-full border-foreground/15 bg-background/60 text-foreground backdrop-blur sm:w-auto dark:bg-background/40"
                 >
                   <NavLink to="/dictionary">
                     {t("landingPage.hero.secondary")}
@@ -87,7 +90,7 @@ export default function LandingPage() {
               {heroCharacters.map((character, index) => (
                 <span
                   key={character}
-                  className="absolute flex size-24 items-center justify-center rounded-xl border border-foreground/10 bg-background/70 text-5xl font-semibold shadow-sm backdrop-blur-md"
+                  className="absolute flex size-24 items-center justify-center rounded-xl border border-foreground/10 bg-background/70 text-5xl font-semibold text-foreground shadow-sm backdrop-blur-md dark:bg-background/70"
                   style={{
                     left: `${(index % 3) * 132 + (index === 4 ? 56 : 0)}px`,
                     top: `${Math.floor(index / 3) * 136 + (index % 2) * 22}px`,
@@ -98,7 +101,7 @@ export default function LandingPage() {
                 </span>
               ))}
 
-              <div className="absolute right-0 bottom-6 w-[340px] rounded-xl border border-foreground/10 bg-card/85 p-4 shadow-xl backdrop-blur">
+              <div className="absolute right-0 bottom-6 w-[340px] rounded-xl border border-foreground/10 bg-card/85 p-4 text-card-foreground shadow-xl backdrop-blur dark:bg-card/90">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="text-sm font-medium">
                     {t("landingPage.preview.title")}
@@ -115,7 +118,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="bg-background px-4 py-16 sm:px-6 lg:px-8">
+        <section className="bg-background px-4 py-16 text-foreground sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
             <Feature
               title={t("landingPage.features.practice.title")}
@@ -140,7 +143,9 @@ function Metric({ value, label }: { value: string; label: string }) {
   return (
     <div className="border-l border-foreground/15 pl-4">
       <dt className="text-2xl font-semibold">{value}</dt>
-      <dd className="mt-1 text-sm leading-5 text-muted-foreground">{label}</dd>
+      <dd className="mt-1 text-sm leading-5 text-[oklch(0.46_0.025_326)] dark:text-[oklch(0.83_0.012_155)]">
+        {label}
+      </dd>
     </div>
   );
 }
