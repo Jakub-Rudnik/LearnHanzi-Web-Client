@@ -28,7 +28,12 @@ pnpm run dev
 ```
 
 ## Run production version
-TBA
+Build and run the production image:
+```bash
+make up
+```
+
+The app will be available on port `4173`.
 
 ## To install any package and save it to the dependencies, use:
 ```bash

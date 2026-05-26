@@ -13,7 +13,8 @@ USER node
 RUN pnpm config set store-dir "$PNPM_STORE_DIR" && pnpm install --frozen-lockfile
 
 COPY --chown=node:node . .
+RUN pnpm run build
 
-EXPOSE 5173
+EXPOSE 4173
 
-CMD ["pnpm", "run", "dev"]
+CMD ["pnpm", "run", "preview"]
