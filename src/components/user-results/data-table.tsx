@@ -23,6 +23,7 @@ export function DataTable({ data }: DataTableProps) {
   const { t, i18n } = useTranslation();
   const columns = React.useMemo(() => getColumns(t, i18n), [t, i18n]);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: data as ResultEntry[],
     columns,

@@ -2,8 +2,13 @@ import PageMeta from "@/components/seo/page-meta.tsx";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
+import { isUserActive } from "@/lib/auth-types.ts";
 import { useUser } from "@/stores/user-store.ts";
+import type { FormEvent } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 
@@ -52,12 +57,20 @@ function roleVariant(role: "USER" | "ADMIN") {
   return role === "ADMIN" ? "default" : "outline";
 }
 
-function statusLabelKey(isActive: boolean) {
-  return isActive ? "profilePage.values.active" : "profilePage.values.inactive";
+function statusLabelKey(accountStatus: string) {
+  if (accountStatus === "ACTIVE") {
+    return "profilePage.values.active";
+  }
+
+  if (accountStatus === "SUSPENDED") {
+    return "profilePage.values.suspended";
+  }
+
+  return "profilePage.values.inactive";
 }
 
-function statusVariant(isActive: boolean) {
-  return isActive ? "secondary" : "destructive";
+function statusVariant(accountStatus: string) {
+  return accountStatus === "ACTIVE" ? "secondary" : "destructive";
 }
 
 function DetailRow({ label, value }: { label: string; value: string }) {
@@ -130,6 +143,242 @@ function EmptyState() {
   );
 }
 
+function ProfileEditForm() {
+  const { t } = useTranslation();
+  const user = useUser((state) => state.user);
+  const updateProfile = useUser((state) => state.updateProfile);
+  const [username, setUsername] = useState(user?.username ?? "");
+  const [email, setEmail] = useState(user?.email ?? "");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUsername(user?.username ?? "");
+    setEmail(user?.email ?? "");
+  }, [user?.email, user?.username]);
+
+  const payload = useMemo(() => {
+    const next: { username?: string; email?: string } = {};
+    const trimmedUsername = username.trim();
+    const trimmedEmail = email.trim();
+
+    if (user && trimmedUsername !== user.username) {
+      next.username = trimmedUsername;
+    }
+
+    if (user && trimmedEmail !== user.email) {
+      next.email = trimmedEmail;
+    }
+
+    return next;
+  }, [email, user, username]);
+
+  const hasChanges = Object.keys(payload).length > 0;
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!user || !hasChanges) {
+      return;
+    }
+
+    if (payload.username !== undefined && payload.username.length < 3) {
+      setError(t("profilePage.edit.validation.username"));
+      return;
+    }
+
+    if (payload.email !== undefined && !payload.email.includes("@")) {
+      setError(t("profilePage.edit.validation.email"));
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      await updateProfile(payload);
+      setMessage(t("profilePage.edit.success"));
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : t("profilePage.edit.error")
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold tracking-tight">
+          {t("profilePage.edit.title")}
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          {t("profilePage.edit.description")}
+        </p>
+      </div>
+      <FieldGroup className="gap-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field>
+            <FieldLabel htmlFor="profile-username">
+              {t("profilePage.labels.username")}
+            </FieldLabel>
+            <Input
+              id="profile-username"
+              value={username}
+              minLength={3}
+              maxLength={50}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="profile-email">
+              {t("profilePage.labels.email")}
+            </FieldLabel>
+            <Input
+              id="profile-email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </Field>
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <Button type="submit" disabled={!hasChanges || isSubmitting}>
+            {isSubmitting
+              ? t("profilePage.edit.saving")
+              : t("profilePage.edit.save")}
+          </Button>
+          {message ? (
+            <p className="text-sm text-muted-foreground">{message}</p>
+          ) : null}
+          {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        </div>
+      </FieldGroup>
+    </form>
+  );
+}
+
+function PasswordChangeForm() {
+  const { t } = useTranslation();
+  const changePassword = useUser((state) => state.changePassword);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const currentPassword = String(formData.get("current_password") ?? "");
+    const newPassword = String(formData.get("new_password") ?? "");
+    const confirmPassword = String(formData.get("confirm_password") ?? "");
+
+    if (newPassword.length < 8) {
+      setError(t("profilePage.password.validation.password"));
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError(t("profilePage.password.validation.confirm"));
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      await changePassword({
+        current_password: currentPassword,
+        new_password: newPassword,
+      });
+      form.reset();
+      setMessage(t("profilePage.password.success"));
+    } catch (requestError) {
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : t("profilePage.password.error")
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <div className="space-y-1">
+        <h2 className="text-lg font-semibold tracking-tight">
+          {t("profilePage.password.title")}
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          {t("profilePage.password.description")}
+        </p>
+      </div>
+      <FieldGroup className="gap-4">
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Field>
+            <FieldLabel htmlFor="current-password">
+              {t("profilePage.password.current")}
+            </FieldLabel>
+            <Input
+              id="current-password"
+              name="current_password"
+              type="password"
+              minLength={8}
+              required
+              autoComplete="current-password"
+            />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="new-password">
+              {t("profilePage.password.next")}
+            </FieldLabel>
+            <Input
+              id="new-password"
+              name="new_password"
+              type="password"
+              minLength={8}
+              required
+              autoComplete="new-password"
+            />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="confirm-new-password">
+              {t("profilePage.password.confirm")}
+            </FieldLabel>
+            <Input
+              id="confirm-new-password"
+              name="confirm_password"
+              type="password"
+              minLength={8}
+              required
+              autoComplete="new-password"
+            />
+          </Field>
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting
+              ? t("profilePage.password.saving")
+              : t("profilePage.password.save")}
+          </Button>
+          {message ? (
+            <p className="text-sm text-muted-foreground">{message}</p>
+          ) : null}
+          {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        </div>
+      </FieldGroup>
+    </form>
+  );
+}
+
 export default function ProfilePage() {
   const { t, i18n } = useTranslation();
   const user = useUser((state) => state.user);
@@ -179,8 +428,8 @@ export default function ProfilePage() {
                     <Badge variant={roleVariant(user.role)}>
                       {t(roleLabelKey(user.role))}
                     </Badge>
-                    <Badge variant={statusVariant(user.is_active)}>
-                      {t(statusLabelKey(user.is_active))}
+                    <Badge variant={statusVariant(user.account_status)}>
+                      {t(statusLabelKey(user.account_status))}
                     </Badge>
                   </div>
                 </div>
@@ -192,6 +441,15 @@ export default function ProfilePage() {
             </div>
 
             <Separator />
+
+            {isUserActive(user) ? (
+              <>
+                <ProfileEditForm />
+                <Separator />
+                <PasswordChangeForm />
+                <Separator />
+              </>
+            ) : null}
 
             <div className="flex flex-col gap-4">
               <DetailRow
@@ -208,7 +466,7 @@ export default function ProfilePage() {
               />
               <DetailRow
                 label={t("profilePage.labels.status")}
-                value={t(statusLabelKey(user.is_active))}
+                value={t(statusLabelKey(user.account_status))}
               />
               <DetailRow
                 label={t("profilePage.labels.memberSince")}

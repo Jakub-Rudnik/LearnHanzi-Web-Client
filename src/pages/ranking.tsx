@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { getMyIdentity, getPublicUser } from "@/lib/auth-api.ts";
 import PageMeta from "@/components/seo/page-meta.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import {
@@ -13,7 +14,11 @@ import {
 } from "@/components/ui/table.tsx";
 import { cn } from "@/lib/utils.ts";
 import { getRanking, type RankingItem } from "@/lib/progress-api.ts";
-import { useUser } from "@/stores/user-store.ts";
+import {
+  getAccessToken,
+  getRefreshToken,
+  useUser,
+} from "@/stores/user-store.ts";
 
 function shortUserId(userId: string) {
   return userId.slice(0, 8);
@@ -23,8 +28,79 @@ export default function RankingPage() {
   const { t } = useTranslation();
   const user = useUser((state) => state.user);
   const [ranking, setRanking] = useState<RankingItem[]>([]);
+  const [currentUsername, setCurrentUsername] = useState<string | null>(null);
+  const [usernames, setUsernames] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    let isActive = true;
+
+    getMyIdentity({
+      getAccessToken,
+      getRefreshToken,
+      applyAuthResponse: useUser.getState().applyAuthResponse,
+      clearAuth: useUser.getState().clearUser,
+    })
+      .then((identity) => {
+        if (isActive) {
+          setCurrentUsername(identity.username);
+        }
+      })
+      .catch(() => {
+        if (isActive) {
+          setCurrentUsername(user.username);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [user]);
+
+  useEffect(() => {
+    if (ranking.length === 0) return;
+
+    const missing = ranking
+      .map((r) => r.user_id)
+      .filter((id) => id !== user?.id && !(id in usernames));
+
+    if (missing.length === 0) return;
+
+    let isActive = true;
+
+    Promise.allSettled(
+      missing.map((id) => getPublicUser(id))
+    ).then((results) => {
+      if (!isActive) return;
+
+      const next: Record<string, string> = {};
+
+      results.forEach((res, idx) => {
+        const id = missing[idx];
+
+        if (res.status === "fulfilled" && res.value && res.value.username) {
+          next[id] = res.value.username;
+        } else {
+          if (res.status === "rejected") {
+            console.warn("Failed to fetch username for", id, "reason:", res.reason);
+          }
+
+          next[id] = shortUserId(id);
+        }
+      });
+
+      setUsernames((prev) => ({ ...prev, ...next }));
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [ranking, user?.id, usernames]);
 
   useEffect(() => {
     let isActive = true;
@@ -107,8 +183,9 @@ export default function RankingPage() {
                   {ranking.map((item, index) => {
                     const isCurrentUser = user?.id === item.user_id;
                     const label = isCurrentUser
-                      ? user.username
-                      : t("rankingPage.userLabel", {
+                      ? currentUsername ?? user?.username ?? shortUserId(item.user_id)
+                      : usernames[item.user_id]
+                      ?? t("rankingPage.userLabel", {
                           userId: shortUserId(item.user_id),
                         });
 

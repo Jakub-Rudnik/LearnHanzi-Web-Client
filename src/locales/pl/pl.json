@@ -35,7 +35,35 @@
       "administrator": "Administrator",
       "active": "Aktywny",
       "inactive": "Nieaktywny",
+      "suspended": "Zawieszony",
       "never": "Nigdy"
+    },
+    "edit": {
+      "title": "Dane profilu",
+      "description": "Zmień nazwę użytkownika lub adres e-mail. Zapis wyśle tylko zmienione pola.",
+      "save": "Zapisz zmiany",
+      "saving": "Zapisywanie...",
+      "success": "Profil został zaktualizowany.",
+      "error": "Nie udało się zaktualizować profilu.",
+      "validation": {
+        "username": "Nazwa użytkownika musi mieć co najmniej 3 znaki.",
+        "email": "Podaj poprawny adres e-mail."
+      }
+    },
+    "password": {
+      "title": "Zmiana hasła",
+      "description": "Ustaw nowe hasło dla aktywnej sesji.",
+      "current": "Obecne hasło",
+      "next": "Nowe hasło",
+      "confirm": "Potwierdź nowe hasło",
+      "save": "Zmień hasło",
+      "saving": "Zmienianie...",
+      "success": "Hasło zostało zmienione.",
+      "error": "Nie udało się zmienić hasła.",
+      "validation": {
+        "password": "Nowe hasło musi mieć co najmniej 8 znaków.",
+        "confirm": "Hasła muszą być takie same."
+      }
     }
   },
   "metaHomeTitle": "Strona główna - LearnHanzi",
@@ -74,6 +102,25 @@
   "metaResetPasswordDescription": "Wpisz nowe hasło",
   "Reset password": "Zresetuj hasło",
   "Enter new password": "Wpisz nowe hasło",
+  "forgotPassword": {
+    "sending": "Wysyłanie...",
+    "success": "Jeśli konto istnieje, instrukcje resetowania zostały wysłane.",
+    "error": "Nie udało się wysłać linku resetowania.",
+    "devResetLink": "Link developerski:",
+    "openReset": "otwórz reset hasła"
+  },
+  "resetPassword": {
+    "token": "Token resetowania",
+    "confirmPassword": "Potwierdź hasło",
+    "submitting": "Resetowanie...",
+    "success": "Hasło zostało zresetowane. Możesz się zalogować.",
+    "error": "Nie udało się zresetować hasła.",
+    "validation": {
+      "token": "Token musi mieć co najmniej 20 znaków.",
+      "password": "Hasło musi mieć co najmniej 8 znaków.",
+      "confirm": "Hasła muszą być takie same."
+    }
+  },
   "metaSignupTitle": "Rejestracja - LearnHanzi",
   "metaSignupDescription": "Utwórz konto LearnHanzi i zacznij uczyć się chińskich znaków.",
   "Signup to LearnHanzi": "Zarejestruj się w LearnHanzi",
@@ -132,9 +179,7 @@
     "pronunciation": "Wymowa",
     "meaning": "Znaczenie",
     "lastPractised": "Ostatnio ćwiczone",
-    "level": "Poziom",
-    "status": "Status",
-    "favorite": "Ulubione"
+    "level": "Poziom"
   },
   "homePage": {
     "WelcomeHeading": "Witamy ponownie",
@@ -154,6 +199,10 @@
     "practice": "Ćwicz",
     "level": "Poziom {{level}}",
     "page": "Strona {{page}}",
+    "paginationLabel": "Stronicowanie",
+    "paginationHint": "Przeglądaj kolejne porcje znaków w słowniku.",
+    "previousPageAria": "Przejdź do strony {{page}}",
+    "nextPageAria": "Przejdź do strony {{page}}",
     "previous": "Poprzednia",
     "next": "Następna",
     "errors": {
@@ -173,6 +222,65 @@
       "difficulty": "Trudność",
       "category": "Kategoria",
       "actions": "Akcje"
+    }
+  },
+  "flashcardsPage": {
+    "description": "Twórz własne zestawy hanzi, powtarzaj karty i oznaczaj znaki jako ulubione lub trudne.",
+    "loading": "Ładowanie fiszek...",
+    "empty": "Nie masz jeszcze zestawów fiszek. Utwórz pierwszy zestaw, aby rozpocząć powtórki.",
+    "newSet": "Nowy zestaw",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "remove": "Usuń",
+    "cancel": "Anuluj",
+    "practice": "Ćwicz",
+    "previous": "Poprzednia",
+    "next": "Następna",
+    "noDescription": "Brak opisu",
+    "cardsCount": "{{count}} kart",
+    "updated": "Zaktualizowano: {{date}}",
+    "level": "Poziom {{level}}",
+    "views": {
+      "sets": "Moje zestawy",
+      "favorites": "Ulubione",
+      "difficult": "Trudne"
+    },
+    "errors": {
+      "load": "Nie udało się załadować fiszek.",
+      "loadSet": "Nie udało się załadować zestawu.",
+      "save": "Nie udało się zapisać zestawu.",
+      "delete": "Nie udało się usunąć zestawu.",
+      "study": "Nie udało się uruchomić nauki.",
+      "flag": "Nie udało się zaktualizować oznaczenia."
+    },
+    "form": {
+      "createTitle": "Nowy zestaw fiszek",
+      "editTitle": "Edytuj zestaw fiszek",
+      "description": "Wybierz nazwę, opcjonalny opis i znaki, które mają wejść do zestawu.",
+      "descriptionLabel": "Opis",
+      "name": "Nazwa",
+      "hanzi": "Znaki",
+      "search": "Szukaj znaku, pinyin lub znaczenia...",
+      "noHanzi": "Brak pasujących znaków.",
+      "loadingDictionary": "Ładowanie słownika...",
+      "save": "Zapisz zestaw",
+      "saving": "Zapisywanie...",
+      "selected": "Wybrano: {{count}}",
+      "validation": {
+        "name": "Podaj nazwę zestawu.",
+        "hanzi": "Wybierz co najmniej jeden znak."
+      }
+    },
+    "study": {
+      "action": "Ucz się",
+      "close": "Zamknij",
+      "progress": "{{current}} / {{total}}",
+      "showAnswer": "Pokaż odpowiedź",
+      "favorite": "Ulubione",
+      "difficult": "Trudne"
+    },
+    "marked": {
+      "empty": "Ta lista jest pusta."
     }
   },
   "rankingPage": {

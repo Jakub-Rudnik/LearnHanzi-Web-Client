@@ -5,7 +5,7 @@ export type User = {
   username: string;
   email: string;
   role: UserRole;
-  is_active: boolean;
+  account_status: "ACTIVE" | "INACTIVE" | "SUSPENDED" | string;
   created_at: string;
   updated_at: string | null;
   last_login_at: string | null;
@@ -60,10 +60,42 @@ export type UserIdentity = {
   username: string;
   email: string;
   role: UserRole;
-  is_active: boolean;
+  account_status: "ACTIVE" | "INACTIVE" | "SUSPENDED" | string;
   created_at: string;
   last_login_at: string | null;
 };
 
+export type PublicUser = {
+  id: string;
+  username: string;
+};
+
 export type Token = TokenPairResponse;
 
+export type UserProfileUpdate = {
+  username?: string;
+  email?: string;
+};
+
+export type PasswordResetRequest = {
+  email: string;
+};
+
+export type PasswordResetRequestResponse = {
+  detail: string;
+  reset_token: string | null;
+};
+
+export type PasswordResetConfirm = {
+  token: string;
+  new_password: string;
+};
+
+export type PasswordChange = {
+  current_password: string;
+  new_password: string;
+};
+
+export function isUserActive(user: Pick<User, "account_status">) {
+  return user.account_status === "ACTIVE";
+}

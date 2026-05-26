@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import PageMeta from "@/components/seo/page-meta.tsx";
 import { TypographyH2, TypographyP } from "@/components/typography.tsx";
 import { DataTable } from "@/components/user-results/data-table.tsx";
-import { listHanzi, type Hanzi } from "@/lib/dictionary-api.ts";
+import { type Hanzi, listHanzi } from "@/lib/dictionary-api.ts";
 import { useUser } from "@/stores/user-store.ts";
 
 type MeaningText = {
@@ -13,22 +13,15 @@ type MeaningText = {
 };
 
 type HomeResultEntry = {
-  word: string;
   character: string;
   pronunciation: string;
   meaning: MeaningText;
   lastPractised: Date;
   level: number;
-  status: MeaningText;
-  favorite: boolean;
 };
 
-function mapHanziToHomeEntry(
-  hanzi: Hanzi,
-  status: MeaningText
-): HomeResultEntry {
+function mapHanziToHomeEntry(hanzi: Hanzi): HomeResultEntry {
   return {
-    word: hanzi.theme_category ?? `HSK ${hanzi.difficulty_level}`,
     character: hanzi.character,
     pronunciation: hanzi.pinyin,
     meaning: {
@@ -37,8 +30,6 @@ function mapHanziToHomeEntry(
     },
     lastPractised: new Date(),
     level: hanzi.difficulty_level,
-    status,
-    favorite: false,
   };
 }
 
@@ -81,13 +72,8 @@ export default function HomePage() {
   }, [t]);
 
   const tableData = useMemo(() => {
-    const readyStatus = {
-      en: t("homePage.readyToPractice", { lng: "en-GB" }),
-      pl: t("homePage.readyToPractice", { lng: "pl-PL" }),
-    };
-
-    return hanzi.map((item) => mapHanziToHomeEntry(item, readyStatus));
-  }, [hanzi, t]);
+    return hanzi.map((item) => mapHanziToHomeEntry(item));
+  }, [hanzi]);
 
   return (
     <>

@@ -1,15 +1,20 @@
 import type {
   AuthResponse,
+  PasswordChange,
   User,
   UserCreate,
   UserLogin,
+  UserProfileUpdate,
 } from "@/lib/auth-types.ts";
 import {
+  AuthApiError,
+  changePassword as apiChangePassword,
   login as apiLogin,
   logout as apiLogout,
   refresh as apiRefresh,
   register as apiRegister,
   session as apiSession,
+  updateMyProfile,
 } from "@/lib/auth-api.ts";
 import { create } from "zustand/react";
 
@@ -18,12 +23,15 @@ interface UserStore {
   error: string | null;
   isLoading: boolean;
   setUser: (user: User | null) => void;
+  applyAuthResponse: (response: AuthResponse) => void;
   clearError: () => void;
   checkAuth: () => Promise<void>;
   clearUser: () => void;
   login: (data: UserLogin) => Promise<void>;
   signup: (data: UserCreate) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (data: UserProfileUpdate) => Promise<void>;
+  changePassword: (data: PasswordChange) => Promise<void>;
 }
 
 const ACCESS_TOKEN_KEY = "access_token";
@@ -41,7 +49,15 @@ function clearPersistedTokens() {
   localStorage.removeItem(REFRESH_TOKEN_KEY);
 }
 
-function setAuthResponse(
+export function getAccessToken() {
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
+
+export function getRefreshToken() {
+  return localStorage.getItem(REFRESH_TOKEN_KEY);
+}
+
+function applyAuthResponse(
   set: (partial: Partial<UserStore>) => void,
   response: AuthResponse
 ) {
@@ -59,6 +75,7 @@ export const useUser = create<UserStore>((set) => ({
   error: null,
   isLoading: true,
   setUser: (user) => set({ user }),
+  applyAuthResponse: (response) => applyAuthResponse(set, response),
   clearError: () =>
     set((state) => {
       if (state.error === null) {
@@ -97,7 +114,7 @@ export const useUser = create<UserStore>((set) => ({
       if (refreshToken) {
         try {
           const response = await apiRefresh({ refresh_token: refreshToken });
-          setAuthResponse(set, response);
+          applyAuthResponse(set, response);
           return;
         } catch {
           clearStoredUser(set);
@@ -120,7 +137,7 @@ export const useUser = create<UserStore>((set) => ({
 
     try {
       const response = await apiLogin(data);
-      setAuthResponse(set, response);
+      applyAuthResponse(set, response);
     } catch (error) {
       clearPersistedTokens();
       set({
@@ -135,7 +152,7 @@ export const useUser = create<UserStore>((set) => ({
 
     try {
       const response = await apiRegister(data);
-      setAuthResponse(set, response);
+      applyAuthResponse(set, response);
     } catch (error) {
       clearPersistedTokens();
       set({
@@ -146,7 +163,7 @@ export const useUser = create<UserStore>((set) => ({
     }
   },
   logout: async () => {
-    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+    const refreshToken = getRefreshToken();
 
     try {
       if (refreshToken) {
@@ -156,6 +173,56 @@ export const useUser = create<UserStore>((set) => ({
       // The session is being cleared locally regardless of logout API errors.
     } finally {
       clearStoredUser(set);
+    }
+  },
+  updateProfile: async (data) => {
+    set({ error: null });
+
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      const error = new Error("Missing access token");
+      set({ error: error.message });
+      throw error;
+    }
+
+    try {
+      const user = await updateMyProfile(data, accessToken);
+      set({ user, error: null });
+    } catch (error) {
+      if (error instanceof AuthApiError && error.status === 401) {
+        await useUser.getState().checkAuth();
+      }
+
+      set({
+        error:
+          error instanceof Error ? error.message : "Unable to update profile",
+      });
+      throw error;
+    }
+  },
+  changePassword: async (data) => {
+    set({ error: null });
+
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      const error = new Error("Missing access token");
+      set({ error: error.message });
+      throw error;
+    }
+
+    try {
+      await apiChangePassword(data, accessToken);
+      set({ error: null });
+    } catch (error) {
+      if (error instanceof AuthApiError && error.status === 401) {
+        await useUser.getState().checkAuth();
+      }
+
+      set({
+        error:
+          error instanceof Error ? error.message : "Unable to change password",
+      });
+      throw error;
     }
   },
 }));

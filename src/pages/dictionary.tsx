@@ -6,15 +6,10 @@ import PageMeta from "@/components/seo/page-meta.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table.tsx";
-import { listHanzi, type Hanzi } from "@/lib/dictionary-api.ts";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table.tsx";
+import { type Hanzi, listHanzi } from "@/lib/dictionary-api.ts";
+import { ArrowLeft02Icon, ArrowRight02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 const PAGE_SIZE = 100;
 
@@ -88,13 +83,7 @@ export default function DictionaryPage() {
         return true;
       }
 
-      return [
-        hanzi.character,
-        hanzi.pinyin,
-        hanzi.meaning_en,
-        hanzi.meaning_pl,
-        hanzi.theme_category ?? "",
-      ]
+      return [hanzi.character, hanzi.pinyin, hanzi.meaning_en, hanzi.meaning_pl]
         .join(" ")
         .toLowerCase()
         .includes(normalizedQuery);
@@ -104,6 +93,8 @@ export default function DictionaryPage() {
   const canGoBack = offset > 0;
   const canGoForward = items.length === PAGE_SIZE;
   const page = Math.floor(offset / PAGE_SIZE) + 1;
+  const previousPage = Math.max(1, page - 1);
+  const nextPage = page + 1;
   const difficultyOptions = [
     { value: "all", label: t("dictionaryPage.filters.all") },
     { value: "1", label: t("dictionaryPage.filters.1") },
@@ -176,7 +167,6 @@ export default function DictionaryPage() {
                     <TableHead>
                       {t("dictionaryPage.table.difficulty")}
                     </TableHead>
-                    <TableHead>{t("dictionaryPage.table.category")}</TableHead>
                     <TableHead className="text-right">
                       {t("dictionaryPage.table.actions")}
                     </TableHead>
@@ -202,17 +192,6 @@ export default function DictionaryPage() {
                             })}
                           </Badge>
                         </TableCell>
-                        <TableCell>
-                          {hanzi.theme_category ? (
-                            <Badge variant="outline">
-                              {hanzi.theme_category}
-                            </Badge>
-                          ) : (
-                            <span className="text-sm text-muted-foreground">
-                              {t("dictionaryPage.noCategory")}
-                            </span>
-                          )}
-                        </TableCell>
                         <TableCell className="text-right">
                           <Button asChild size="sm" variant="outline">
                             <NavLink to={`/learn/${hanzi.character}`}>
@@ -233,26 +212,39 @@ export default function DictionaryPage() {
               </Table>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-muted-foreground">
-                {t("dictionaryPage.page", { page })}
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  disabled={!canGoBack}
-                  onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
-                >
-                  {t("dictionaryPage.previous")}
-                </Button>
-                <Button
-                  variant="outline"
-                  disabled={!canGoForward}
-                  onClick={() => setOffset(offset + PAGE_SIZE)}
-                >
-                  {t("dictionaryPage.next")}
-                </Button>
-              </div>
+            <div className="flex items-center justify-center gap-2 rounded-xl px-4 pt-2 pb-6">
+              <Button
+                variant="outline"
+                size="icon-sm"
+                className="shrink-0"
+                disabled={!canGoBack}
+                onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
+                aria-label={t("dictionaryPage.previousPageAria", {
+                  page: previousPage,
+                })}
+              >
+                <HugeiconsIcon icon={ArrowLeft02Icon} className="size-4" />
+              </Button>
+
+              <Badge
+                variant="secondary"
+                className="min-w-10 justify-center rounded-full px-3 py-1 text-sm font-medium"
+              >
+                {page}
+              </Badge>
+
+              <Button
+                variant="outline"
+                size="icon-sm"
+                className="shrink-0"
+                disabled={!canGoForward}
+                onClick={() => setOffset(offset + PAGE_SIZE)}
+                aria-label={t("dictionaryPage.nextPageAria", {
+                  page: nextPage,
+                })}
+              >
+                <HugeiconsIcon icon={ArrowRight02Icon} className="size-4" />
+              </Button>
             </div>
           </>
         )}

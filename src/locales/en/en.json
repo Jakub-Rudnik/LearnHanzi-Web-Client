@@ -35,7 +35,35 @@
       "administrator": "Administrator",
       "active": "Active",
       "inactive": "Inactive",
+      "suspended": "Suspended",
       "never": "Never"
+    },
+    "edit": {
+      "title": "Profile details",
+      "description": "Change your username or email address. Saving sends only changed fields.",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "success": "Profile updated.",
+      "error": "Could not update profile.",
+      "validation": {
+        "username": "Username must be at least 3 characters.",
+        "email": "Enter a valid email address."
+      }
+    },
+    "password": {
+      "title": "Change password",
+      "description": "Set a new password for your active session.",
+      "current": "Current password",
+      "next": "New password",
+      "confirm": "Confirm new password",
+      "save": "Change password",
+      "saving": "Changing...",
+      "success": "Password changed.",
+      "error": "Could not change password.",
+      "validation": {
+        "password": "New password must be at least 8 characters.",
+        "confirm": "Passwords must match."
+      }
     }
   },
   "metaHomeTitle": "Home - LearnHanzi",
@@ -74,6 +102,25 @@
   "metaResetPasswordDescription": "Enter new password",
   "Reset password": "Reset password",
   "Enter new password": "Enter new password",
+  "forgotPassword": {
+    "sending": "Sending...",
+    "success": "If the account exists, reset instructions were sent.",
+    "error": "Could not send reset link.",
+    "devResetLink": "Developer link:",
+    "openReset": "open password reset"
+  },
+  "resetPassword": {
+    "token": "Reset token",
+    "confirmPassword": "Confirm password",
+    "submitting": "Resetting...",
+    "success": "Password has been reset. You can log in now.",
+    "error": "Could not reset password.",
+    "validation": {
+      "token": "Token must be at least 20 characters.",
+      "password": "Password must be at least 8 characters.",
+      "confirm": "Passwords must match."
+    }
+  },
   "metaSignupTitle": "Sign up - LearnHanzi",
   "metaSignupDescription": "Create your LearnHanzi account and start learning Chinese characters.",
   "Signup to LearnHanzi": "Signup to LearnHanzi",
@@ -140,9 +187,7 @@
     "pronunciation": "Pronunciation",
     "meaning": "Meaning",
     "lastPractised": "Last practiced",
-    "level": "Level",
-    "status": "Status",
-    "favorite": "Favorite"
+    "level": "Level"
   },
   "dictionaryPage": {
     "description": "Browse the available hanzi, filter by difficulty, and jump straight into practice.",
@@ -154,6 +199,10 @@
     "practice": "Practice",
     "level": "Level {{level}}",
     "page": "Page {{page}}",
+    "paginationLabel": "Pagination",
+    "paginationHint": "Browse the dictionary one page at a time.",
+    "previousPageAria": "Go to page {{page}}",
+    "nextPageAria": "Go to page {{page}}",
     "previous": "Previous",
     "next": "Next",
     "errors": {
@@ -173,6 +222,65 @@
       "difficulty": "Difficulty",
       "category": "Category",
       "actions": "Actions"
+    }
+  },
+  "flashcardsPage": {
+    "description": "Create your own hanzi sets, review cards, and mark characters as favorite or difficult.",
+    "loading": "Loading flashcards...",
+    "empty": "You do not have flashcard sets yet. Create your first set to start reviewing.",
+    "newSet": "New set",
+    "edit": "Edit",
+    "delete": "Delete",
+    "remove": "Remove",
+    "cancel": "Cancel",
+    "practice": "Practice",
+    "previous": "Previous",
+    "next": "Next",
+    "noDescription": "No description",
+    "cardsCount": "{{count}} cards",
+    "updated": "Updated: {{date}}",
+    "level": "Level {{level}}",
+    "views": {
+      "sets": "My sets",
+      "favorites": "Favorites",
+      "difficult": "Difficult"
+    },
+    "errors": {
+      "load": "Could not load flashcards.",
+      "loadSet": "Could not load this set.",
+      "save": "Could not save this set.",
+      "delete": "Could not delete this set.",
+      "study": "Could not start study mode.",
+      "flag": "Could not update this marker."
+    },
+    "form": {
+      "createTitle": "New flashcard set",
+      "editTitle": "Edit flashcard set",
+      "description": "Choose a name, optional description, and the characters for this set.",
+      "descriptionLabel": "Description",
+      "name": "Name",
+      "hanzi": "Characters",
+      "search": "Search character, pinyin, or meaning...",
+      "noHanzi": "No matching characters.",
+      "loadingDictionary": "Loading dictionary...",
+      "save": "Save set",
+      "saving": "Saving...",
+      "selected": "Selected: {{count}}",
+      "validation": {
+        "name": "Enter a set name.",
+        "hanzi": "Select at least one character."
+      }
+    },
+    "study": {
+      "action": "Study",
+      "close": "Close",
+      "progress": "{{current}} / {{total}}",
+      "showAnswer": "Show answer",
+      "favorite": "Favorite",
+      "difficult": "Difficult"
+    },
+    "marked": {
+      "empty": "This list is empty."
     }
   },
   "rankingPage": {
