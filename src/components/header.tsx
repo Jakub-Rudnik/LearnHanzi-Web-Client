@@ -8,23 +8,10 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button.tsx";
 import { useTheme } from "@/components/theme-provider.tsx";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  LanguageSkillIcon,
-  Menu01Icon,
-  Moon02Icon,
-  Sun02Icon,
-} from "@hugeicons/core-free-icons";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar.tsx";
+import { LanguageSkillIcon, Menu01Icon, Moon02Icon, Sun02Icon, } from "@hugeicons/core-free-icons";
+import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar.tsx";
 import profilePicture from "@/assets/profile-picture.jpeg";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card.tsx";
+import { HoverCard, HoverCardContent, HoverCardTrigger, } from "@/components/ui/hover-card.tsx";
 import { Kbd } from "@/components/ui/kbd.tsx";
 import {
   DropdownMenu,
@@ -34,20 +21,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer.tsx";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer.tsx";
 import { cn } from "@/lib/utils.ts";
 import { useState } from "react";
 import Logo from "@/components/logo.tsx";
-import {
-  ButtonGroup,
-  ButtonGroupSeparator,
-} from "@/components/ui/button-group.tsx";
+import { ButtonGroup, ButtonGroupSeparator, } from "@/components/ui/button-group.tsx";
 import { useTranslation } from "react-i18next";
 import { useUser } from "@/stores/user-store.ts";
 
@@ -187,6 +165,19 @@ export default function Header() {
           </DrawerHeader>
           <Menu setOpen={setOpen} items={navigation_items} column={true} />
           <div className="flex flex-col gap-6 p-4">
+            <Button
+              variant="secondary"
+              size="icon-lg"
+              onClick={() => setTheme(theme == "dark" ? "light" : "dark")}
+              className="w-full"
+            >
+              <HugeiconsIcon
+                icon={Sun02Icon}
+                altIcon={Moon02Icon}
+                showAlt={theme == "dark"}
+                className="size-5"
+              />
+            </Button>
             <div className="flex items-center justify-start gap-6">
               <Avatar>
                 <AvatarImage src={profilePicture} />
